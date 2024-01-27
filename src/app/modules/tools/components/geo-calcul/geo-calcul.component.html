@@ -1,0 +1,138 @@
+<main class="w-full flex">
+  <section class="w-full max-w-full px-3 mt-0 md:flex-0 shrink-0 md:w-7/12 lg:w-5/12">
+    <div class="relative z-0 flex flex-col min-w-0 break-words bg-white border-0 shadow-soft-xl rounded-2xl bg-clip-border">
+      <div class="flex-auto p-6">
+        <form [formGroup]="geoCalculatorForm" (ngSubmit)="onSubmit()">
+
+          <span class="font-bold text-center uppercase">Departure (*)</span>
+          <div class="w-full flex flex-col space-y-1">
+
+            <div class="flex space-x-2">
+              <div class="w-full mb-4" formGroupName="address">
+                <select  formControlName="departureName" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow">
+                  <option value="">Select an departure address</option>
+                </select>
+                @if (departureAddressName.invalid && (departureAddressName.dirty || departureAddressName!.touched)){
+                }
+              </div>
+              <div class="w-full mb-4" formGroupName="times">
+                <input type="time" formControlName="departureTime" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" placeholder="Longitude" aria-label="Email" aria-describedby="email-addon" />
+                @if (departureTime.invalid && (departureTime.dirty || departureTime!.touched)){
+                  @if (departureTime.errors?.['pattern']){
+                    <small class="text-xs">Time must be like this <strong>(10:05)</strong> </small>
+                  }
+                }
+              </div>
+            </div>
+
+            <div class="flex space-x-2" formGroupName="departure">
+              <div class="w-full mb-4">
+                <input type="text" formControlName="latitude" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" placeholder="Latitude" aria-label="Name" aria-describedby="email-addon" />
+                @if (latitudeDeparture.invalid && (latitudeDeparture.dirty || latitudeDeparture.touched)){
+                  @if (latitudeDeparture.errors?.['pattern']){
+                    <small class="text-xs ">Latitude must be like this <strong>(7° 28' E)</strong>  or <strong>(7.45458)</strong></small>
+                  }
+                  @if (latitudeDeparture.errors?.['required']){
+                    <small class=" text-xs ">Latitude is required.</small>
+                  }
+                }
+              </div>
+              <div class="w-full mb-4">
+                <input type="text" formControlName="longitude" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" placeholder="Longitude" aria-label="Email" aria-describedby="email-addon" />
+                @if (longitudeDeparture.invalid && (longitudeDeparture.dirty || longitudeDeparture!.touched)){
+                  @if (longitudeDeparture.errors?.['pattern']){
+                    <small class="text-xs">Latitude must be like this <strong>(7° 28' E)</strong>  or <strong>(7.45458)</strong></small>
+                  }
+                  @if (longitudeDeparture.errors?.['required']){
+                    <small class="text-xs">Latitude is required.</small>
+                  }
+                }
+              </div>
+            </div>
+
+          </div>
+
+          <span class="font-bold text-center uppercase">Arrival (*)</span>
+          <div class="w-full flex flex-col space-y-1">
+
+            <div class="flex  space-x-2">
+              <div class="w-full mb-4" formGroupName="address">
+                <select  formControlName="ArrivalName" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow">
+                  <option value="">Select an arrival address</option>
+                </select>
+                @if (arrivalAddressName.invalid && (arrivalAddressName.dirty || arrivalAddressName!.touched)){
+                }
+              </div>
+              <div class="w-full mb-4" formGroupName="times">
+                <input type="time" formControlName="arrivalTime" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" />
+                @if (arrivalTime.invalid && (arrivalTime.dirty || arrivalTime!.touched)){
+                  @if (arrivalTime.errors?.['pattern']){
+                    <small class="text-xs">Time must be like this <strong>(11:05)</strong> </small>
+                  }
+                }
+              </div>
+            </div>
+
+            <div class="flex space-x-2" formGroupName="arrival">
+              <div class="w-full mb-4">
+                <input type="text" formControlName="latitude" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" placeholder="Latitude" aria-label="Name" aria-describedby="email-addon" />
+                @if (latitudeArrival.invalid && (latitudeArrival.dirty || latitudeArrival.touched)){
+                  @if (latitudeArrival.errors?.['pattern']){
+                    <small class="text-xs">Latitude must be like this <strong>(7° 28' E)</strong>  or <strong>(7.45458)</strong></small>
+                  }
+                  @if (latitudeArrival.errors?.['required']){
+                    <small class="text-xs">Latitude is required.</small>
+                  }
+                }
+              </div>
+              <div class="w-full mb-4">
+                <input type="text" formControlName="longitude" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" placeholder="Longitude" aria-label="Email" aria-describedby="email-addon" />
+                @if (longitudeArrival.invalid && (longitudeArrival.dirty || longitudeArrival!.touched)){
+                  @if (longitudeArrival.errors?.['pattern']){
+                    <small class="text-xs">Latitude must be like this <strong>(7° 28' E)</strong>  or <strong>(7.45458)</strong></small>
+                  }
+                  @if (longitudeArrival.errors?.['required']){
+                    <small class="text-xs">Latitude is required.</small>
+                  }
+                }
+              </div>
+            </div>
+
+          </div>
+
+          <div class="text-center">
+            <button type="submit" [disabled]="geoCalculatorForm.controls['departure'].invalid && geoCalculatorForm.controls['arrival'].invalid" class="inline-block w-full px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-to-tl from-gray-900 to-slate-800 hover:border-slate-700 hover:bg-slate-700 hover:text-white">Calculate</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  @if (pointsList.length > 0){
+    <section class="flex flex-col w-full">
+      <!--distance debut-->
+      <div class="flex flex-wrap space-x-2 space-y-2 items-center">
+        <span class="justify-self-center">La distance entre le depart et l'arrivée : <strong>{{ distanceValue() }}</strong></span>
+        <select class="justify-self-center border " (change)="onChangeUnitDistance($event)" name="symbol">
+          @for (unitItem of unitsDistances; track  unitItem){
+            <option [value]="unitItem.symbol">{{ unitItem.name }}</option>
+          }
+        </select>
+      </div>
+      <!--distance fin -->
+
+
+      <!--speed debut -->
+      <div class="flex flex-wrap space-x-2 space-y-2 items-center">
+        <span class="justify-self-center">La vitesse moyenne entre le depart et l'arrivée : <strong>{{ speedValue() }}</strong></span>
+        <select class="justify-self-center border " (change)="onChangeUnitSpeed($event)" name="symbol">
+          @for (unitItem of unitSpeeds; track  unitItem){
+            <option [value]="unitItem.symbol">{{ unitItem.name }}</option>
+          }
+        </select>
+      </div>
+      <!--speed fin -->
+
+    </section>
+  }
+</main>

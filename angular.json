@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "externalDependencies":[""],
             "outputPath": "dist/tw-dashboard",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -25,7 +26,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/soft-ui-dashboard-tailwind.css",
+              "src/assets/css/soft-ui-dashboard-tailwind.min.css",
+              "node_modules/jsoneditor/dist/jsoneditor.min.css"
             ],
             "scripts": [],
             "server": "src/main.server.ts",
@@ -96,5 +100,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "c34acfc1-b8a1-4843-86a0-bdfc51bf6036"
   }
 }
