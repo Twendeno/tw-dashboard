@@ -1,156 +1,87 @@
 <main class="flex flex-col -mx-3">
 
-  <div
-    class="container flex-auto p-6 relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-    <div class="py-6  mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-      <h5>New Station</h5>
-    </div>
-    <form class="" [formGroup]="stationForm" (ngSubmit)="onSubmit()">
-      <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Name</label>
-      <div class="mb-4">
-        <input formControlName="name" type="text"
-               class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow"
-               placeholder="Name" aria-label="Name" aria-describedby="Name"/>
-      </div>
-      <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Address</label>
-      <div class="mb-4">
-        <input formControlName="address" type="text"
-               class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow"
-               placeholder="Address" aria-label="Address" aria-describedby="Address"/>
-      </div>
-      <div class="w-full flex space-x-2">
-        <div class="w-full flex flex-col">
-          <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Latitude</label>
-          <div class="w-full mb-4">
-            <input formControlName="latitude" type="text"
-                   class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow"
-                   placeholder="Latitude" aria-label="Latitude" aria-describedby="Latitude"/>
-          </div>
-        </div>
-        <div class="w-full flex flex-col">
-          <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Longitude</label>
-          <div class="w-full mb-4">
-            <input formControlName="longitude" type="text"
-                   class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow"
-                   placeholder="Longitude" aria-label="Longitude" aria-describedby="Longitude"/>
-          </div>
-        </div>
-      </div>
-      <div class="min-h-6 mb-0.5 block pl-12">
-        <input formControlName="isStop" id="isStop"
-               class="mt-0.54 rounded-10 duration-250 ease-soft-in-out after:rounded-circle after:shadow-soft-2xl after:duration-250 checked:after:translate-x-5.25 h-5 relative float-left -ml-12 w-10 cursor-pointer appearance-none border border-solid border-gray-200 bg-slate-800/10 bg-none bg-contain bg-left bg-no-repeat align-top transition-all after:absolute after:top-px after:h-4 after:w-4 after:translate-x-px after:bg-white after:content-[''] checked:border-slate-800/95 checked:bg-slate-800/95 checked:bg-none checked:bg-right"
-               type="checkbox"/>
-        <label class="mb-2 ml-1 font-normal cursor-pointer select-none text-sm text-slate-700" for="isStop">Is
-          Stop</label>
-      </div>
-      <div class="text-center">
-        <button type="submit"
-                class="inline-block w-full px-6 py-3 mt-6 mb-0 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer shadow-soft-md bg-x-25 bg-150 leading-pro text-xs ease-soft-in tracking-tight-soft bg-gradient-to-tl from-blue-600 to-cyan-400 hover:scale-102 hover:shadow-soft-xs active:opacity-85">
-          Create
-        </button>
-      </div>
-    </form>
-  </div>
+  <!--Forms-->
+  <p-toast></p-toast>
+  <!--End Forms-->
 
-  <div class="flex-none w-full max-w-full px-3">
-    <div
-      class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-      <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-        <h6>Departments table</h6>
-      </div>
-      <div class="flex-auto px-0 pt-0 pb-2">
-        <div class="p-0 overflow-x-auto">
-          <table class="items-center justify-center w-full mb-0 align-top border-gray-200 text-slate-500">
-            <thead class="align-bottom">
+  <p-confirmDialog></p-confirmDialog>
+
+  @if(stations$() | async; as stations ){
+    <app-table
+      (pageSelectedOutput)="onPaginationChanged($event)"
+      (searchValueOutput)="onSearchChanged($event)"
+      (perPageOutput)="onChangeEntryPerPage($event)"
+      (sortValueOutput)="onSortChanged($event)"
+      (reloadTableData)="onReloadTableData($event)"
+      [perPage]="perPage"
+      [pageSelected]="pageSelected"
+      [searchValue]="searchValue"
+      [sortColumnSelected]="sortValue"
+      [tableName]="tableName"
+      [dynamicComponent]="StationFormComponent"
+      [myService$]="stations"
+      [headers]="headers">
+      <tbody tbody>
+        @if (stations.data; as stationData){
+          @for (stationItem of stationData | filter: searchValue : ['name','address'] | sort:sortValue.order:sortValue.field;track stationItem.uuid) {
             <tr>
-              <th
-                class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                Nom
-              </th>
-              <th
-                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                Address
-              </th>
-              <th
-                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                LatLng
-              </th>
-              <th
-                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                Line
-              </th>
-              <th
-                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                Line list
-              </th>
-              <th
-                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70"></th>
-              <th
-                class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-gray-200 border-solid shadow-none tracking-none whitespace-nowrap"></th>
-            </tr>
-            </thead>
-            <tbody>
-              @if (stations()) {
-                @for (stationItem of (stations()|async)?.data;track stationItem.uuid) {
-                  <tr>
-                    <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <div class="flex px-2">
-                        <div>
-                          <img src="../assets/img/small-logos/logo-spotify.svg"
-                               class="inline-flex items-center justify-center mr-2 text-sm text-white transition-all duration-200 rounded-full ease-soft-in-out h-9 w-9"
-                               alt="spotify"/>
-                        </div>
-                        <div class="my-auto">
-                          <h6 class="mb-0 text-sm leading-normal">{{ stationItem.name }}</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <p class="mb-0 text-sm font-semibold leading-normal">{{ stationItem.address }}</p>
-                    </td>
-                    <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <span class="text-xs font-semibold leading-tight">{{ stationItem.latLng }}</span>
-                    </td>
-                    <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <span class="text-xs font-semibold leading-tight">{{ stationItem._count.geometry }}</span>
-                    </td>
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                <div class="flex px-2">
+                  <div class="my-auto">
+                    <h6 class="mb-0 text-sm leading-normal">{{ stationItem.name }}</h6>
+                  </div>
+                </div>
+              </td>
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                <p class="mb-0 text-sm font-semibold leading-normal">{{ stationItem.address }}</p>
+              </td>
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight">{{ stationItem.latLng }}</span>
+              </td>
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight">{{ stationItem._count.geometry }}</span>
+              </td>
 
-                    <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <select class="text-xs font-semibold leading-tight">
-                        @if (stationItem.geometry.length > 0) {
-                          @for (geometryItem  of stationItem.geometry;track geometryItem) {
-                            <option value="{{ geometryItem.geometry_uuid }}">{{ geometryItem.geometry_uuid }}</option>
-                          }
-                        } @else {
-                          <option value="null">line not found</option>
-                        }
-                      </select>
-                    </td>
-
-                    @if (stationItem.isStop) {
-                      <td
-                        class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                        <span
-                          class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">STOP</span>
-                      </td>
-                    } @else {
-                      <td
-                        class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                        <span
-                          class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">NO STOP</span>
-                      </td>
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                <select class="text-xs font-semibold leading-tight">
+                  @if (stationItem.geometry.length > 0) {
+                    @for (geometryItem  of stationItem.geometry;track geometryItem) {
+                      <option value="{{ geometryItem.geometry_uuid }}">{{ geometryItem.geometry_uuid }}</option>
                     }
+                  } @else {
+                    <option value="null">line not found</option>
+                  }
+                </select>
+              </td>
 
-                    <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <a href="javascript:;" class="text-xs font-semibold leading-tight text-slate-400"> Edit </a>
-                    </td>
-                  </tr>
-                }
+              @if (stationItem.isStop) {
+                <td
+                  class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                        <span
+                          class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.5 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">STOP</span>
+                </td>
+              } @else {
+                <td
+                  class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                        <span
+                          class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.5 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">NO STOP</span>
+                </td>
               }
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+
+
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                <div class="flex space-x-1.5 items-center justify-center">
+                  <a (click)="onShowDialog(stationItem)" class="cursor-pointer text-xs font-semibold leading-tight text-slate-400"> <i class="pi pi-file-edit"></i> </a>
+                  <a (click)="onConfirmDelete(stationItem.uuid)" class=" cursor-pointer text-xs font-semibold leading-tight text-slate-400"> <i class="pi pi-trash"></i> </a>
+                  <a  class="cursor-pointer text-xs font-semibold leading-tight text-slate-400">
+                    <i class="pi pi-eye"></i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </app-table>
+  }
 </main>

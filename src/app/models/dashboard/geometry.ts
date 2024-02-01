@@ -7,6 +7,8 @@ export interface Geometry {
   name: string
   coordinates: Station[]
   _count: Count
+  color: string
+  geodata: string
   reference: string
   createdAt: string
   updatedAt: string

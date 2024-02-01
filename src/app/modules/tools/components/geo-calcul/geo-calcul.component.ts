@@ -1,7 +1,8 @@
-import {Component, computed, input, signal} from '@angular/core';
+import {Component, computed, inject, input, signal} from '@angular/core';
 import * as geolib from 'geolib';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {JsonPipe} from "@angular/common";
+import {AsyncPipe, JsonPipe} from "@angular/common";
+import {StationService} from "@app/services/dashboard/station/station.service";
 
 @Component({
   selector: 'app-geo-calcul',
@@ -9,7 +10,8 @@ import {JsonPipe} from "@angular/common";
   imports: [
     ReactiveFormsModule,
     JsonPipe,
-    FormsModule
+    FormsModule,
+    AsyncPipe
   ],
   templateUrl: './geo-calcul.component.html',
   styleUrl: './geo-calcul.component.css'
@@ -17,14 +19,20 @@ import {JsonPipe} from "@angular/common";
 export class GeoCalculComponent {
 
   protected readonly geolib = geolib;
+
+  readonly stationService = inject(StationService);
+  stations$ = signal(this.stationService.coordinates(1,10));
+  departureSelected = signal("");
+  arrivalSelected = signal("");
+
   geoCalculatorForm = this.fb.group({
     departure: this.fb.group({
-      latitude: ['51.5103',[Validators.required,Validators.pattern('^(-?\\d{1,10}|-?\\d+\\.\\d{1,10})$|^(\\d{1,3})°\\s(\\d{1,2})\'\\s([NSEO])$')] ],
-      longitude: ['7.49347', [Validators.required,Validators.pattern('^(-?\\d{1,10}|-?\\d+\\.\\d{1,10})$|^(\\d{1,3})°\\s(\\d{1,2})\'\\s([NSEO])$')] ],
+      latitude: ['',[Validators.required,Validators.pattern('^(-?\\d{1,10}|-?\\d+\\.\\d{1,10})$|^(\\d{1,3})°\\s(\\d{1,2})\'\\s([NSEO])$')] ],
+      longitude: ['', [Validators.required,Validators.pattern('^(-?\\d{1,10}|-?\\d+\\.\\d{1,10})$|^(\\d{1,3})°\\s(\\d{1,2})\'\\s([NSEO])$')] ],
     }),
     arrival: this.fb.group({
-      latitude: ["51° 31' N",[Validators.required,Validators.pattern('^(-?\\d{1,10}|-?\\d+\\.\\d{1,10})$|^(\\d{1,3})°\\s(\\d{1,2})\'\\s([NSEO])$')] ],
-      longitude: ["7° 28' E", [Validators.required,Validators.pattern('^(-?\\d{1,10}|-?\\d+\\.\\d{1,10})$|^(\\d{1,3})°\\s(\\d{1,2})\'\\s([NSEO])$')] ],
+      latitude: ["",[Validators.required,Validators.pattern('^(-?\\d{1,10}|-?\\d+\\.\\d{1,10})$|^(\\d{1,3})°\\s(\\d{1,2})\'\\s([NSEO])$')] ],
+      longitude: ["", [Validators.required,Validators.pattern('^(-?\\d{1,10}|-?\\d+\\.\\d{1,10})$|^(\\d{1,3})°\\s(\\d{1,2})\'\\s([NSEO])$')] ],
     }),
     times: this.fb.group({
       departureTime:['',[Validators.required,Validators.pattern("^([01]\\d|2[0-3]):[0-5]\\d$")] ],
@@ -75,6 +83,7 @@ export class GeoCalculComponent {
     if (this.geoCalculatorForm.controls['departure'].invalid || this.geoCalculatorForm.controls['arrival'].invalid) {
       return;
     }
+    console.log(this.geoCalculatorForm.value)
     this.pointsList = [this.geoCalculatorForm.controls['departure'].value, this.geoCalculatorForm.controls['arrival'].value];
     this.departureTimeValue.set(this.convertToTimestamp(this.geoCalculatorForm.controls['times'].value.departureTime!))
     this.arrivalTimeValue.set(this.convertToTimestamp(this.geoCalculatorForm.controls['times'].value.arrivalTime!))
@@ -105,6 +114,14 @@ export class GeoCalculComponent {
   }
   onChangeUnitSpeed($event: any) {
     this.unitSpeedSelected.set($event.target.value)
+  }
+
+  onChangesDepartureSelect($event: any) {
+    this.departureSelected.set($event.target.value)
+  }
+
+  onChangesArrivalSelect($event: any) {
+    this.arrivalSelected.set($event.target.value)
   }
 
   private convertToTimestamp(timeString: string): number {

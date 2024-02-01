@@ -1,123 +1,85 @@
 <main class="flex flex-col -mx-3">
+  <!--Forms-->
+  <p-toast></p-toast>
+  <!--End Forms-->
 
-  <div
-    class="container flex-auto p-6 relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-    <div class="py-6  mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-      <h5>New Geometry</h5>
-    </div>
-    <form class="" [formGroup]="geometryForm" (ngSubmit)="onSubmit()">
-      <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Name</label>
-      <div class="mb-4">
-        <input formControlName="name" type="text"
-               class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow"
-               placeholder="Name" aria-label="Name" aria-describedby="Name"/>
-      </div>
-      <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Geometry</label>
-      <div class="mb-4">
-        <select formControlName="type"
-                class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
-          @for (geometryItem of geometryTypes();track geometryItem) {
-            <option value="{{ geometryItem }}">{{ geometryItem }}</option>
-          }
-        </select>
-      </div>
-      <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Geojson file</label>
-      <div class="mb-4">
-        <input type="file" accept="application/json"
-               class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow"/>
-      </div>
-      <div class="text-center">
-        <button type="submit"
-                class="inline-block w-full px-6 py-3 mt-6 mb-0 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer shadow-soft-md bg-x-25 bg-150 leading-pro text-xs ease-soft-in tracking-tight-soft bg-gradient-to-tl from-blue-600 to-cyan-400 hover:scale-102 hover:shadow-soft-xs active:opacity-85">
-          Create
-        </button>
-      </div>
-    </form>
-  </div>
+  <p-confirmDialog></p-confirmDialog>
 
-  <div class="flex-none w-full max-w-full px-3">
-    <div
-      class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-      <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-        <h6>Departments table</h6>
-      </div>
-      <div class="flex-auto px-0 pt-0 pb-2">
-        <div class="p-0 overflow-x-auto">
-          <table class="items-center justify-center w-full mb-0 align-top border-gray-200 text-slate-500">
-            <thead class="align-bottom">
+  @if(geometries$() | async; as geometries ){
+    <app-table
+      (pageSelectedOutput)="onPaginationChanged($event)"
+      (searchValueOutput)="onSearchChanged($event)"
+      (perPageOutput)="onChangeEntryPerPage($event)"
+      (sortValueOutput)="onSortChanged($event)"
+      (reloadTableData)="onReloadTableData($event)"
+      [perPage]="perPage"
+      [pageSelected]="pageSelected"
+      [searchValue]="searchValue"
+      [sortColumnSelected]="sortValue"
+      [tableName]="tableName"
+      [dynamicComponent]="GeometryFormComponent"
+      [myService$]="geometries"
+      [headers]="headers">
+      <tbody tbody>
+        @if (geometries.data; as geometryData){
+          @for (geometryItem of geometryData | filter: searchValue : ['name','reference'] | sort:sortValue.order:sortValue.field ;track geometryItem.uuid) {
             <tr>
-              <th
-                class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                Name
-              </th>
-              <th
-                class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                Reference
-              </th>
-              <th
-                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                Type
-              </th>
-              <th
-                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                Nb station
-              </th>
-              <th
-                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                Station list
-              </th>
-              <th
-                class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-gray-200 border-solid shadow-none tracking-none whitespace-nowrap"></th>
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                <div class="flex px-2">
+                  <div class="my-auto">
+                    <h6 class="mb-0 text-sm leading-normal">{{ geometryItem.name }}</h6>
+                  </div>
+                </div>
+              </td>
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                <p class="mb-0 text-sm font-semibold leading-normal">{{ geometryItem.reference }}</p>
+              </td>
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                      <span class="mb-0 text-sm font-semibold leading-normal flex space-x-1.5 items-center ">
+                        <div  [ngStyle]="{'background-color':geometryItem.color} " class=" rounded-full border w-4 h-4"></div>
+                        {{ geometryItem.color }}
+                      </span>
+              </td>
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                <p class="mb-0 text-sm font-semibold leading-normal">{{ geometryItem.type }}</p>
+              </td>
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight">{{ geometryItem._count.coordinates }}</span>
+              </td>
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                <select class="text-xs font-semibold leading-tight">
+                  @if (geometryItem.coordinates.length > 0) {
+                    @for (coordinateItem  of geometryItem.coordinates;track coordinateItem) {
+                      <option value="{{ coordinateItem.coordinate_uuid }}"> {{ coordinateItem.coordinate_uuid }}
+                      </option>
+                    }
+                  } @else {
+                    <option value="null">station not found</option>
+                  }
+                </select>
+              </td>
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                <div class="flex space-x-1.5 items-center justify-center">
+                  <a (click)="onShowDialog(geometryItem)" class="cursor-pointer text-xs font-semibold leading-tight text-slate-400"> <i class="pi pi-file-edit"></i> </a>
+                  <a (click)="onConfirmDelete(geometryItem.uuid)" class=" cursor-pointer text-xs font-semibold leading-tight text-slate-400"> <i class="pi pi-trash"></i> </a>
+                  <a  class="cursor-pointer text-xs font-semibold leading-tight text-slate-400">
+                    <i class="pi pi-eye"></i>
+                  </a>
+                </div>
+              </td>
             </tr>
-            </thead>
-            <tbody>
-              @if (geometries() != undefined) {
-                @for (geometryItem of (geometries() | async)?.data;track geometryItem.uuid) {
-                  <tr>
-                    <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <div class="flex px-2">
-                        <div>
-                          <img src="../assets/img/small-logos/logo-spotify.svg"
-                               class="inline-flex items-center justify-center mr-2 text-sm text-white transition-all duration-200 rounded-full ease-soft-in-out h-9 w-9"
-                               alt="spotify"/>
-                        </div>
-                        <div class="my-auto">
-                          <h6 class="mb-0 text-sm leading-normal">{{ geometryItem.name }}</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <p class="mb-0 text-sm font-semibold leading-normal">{{ geometryItem.reference }}</p>
-                    </td>
-                    <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <p class="mb-0 text-sm font-semibold leading-normal">{{ geometryItem.type }}</p>
-                    </td>
-                    <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <span class="text-xs font-semibold leading-tight">{{ geometryItem._count.coordinates }}</span>
-                    </td>
-                    <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <select class="text-xs font-semibold leading-tight">
-                        @if (geometryItem.coordinates.length > 0) {
-                          @for (coordinateItem  of geometryItem.coordinates;track coordinateItem) {
-                            <option value="{{ coordinateItem.coordinate_uuid }}"> {{ coordinateItem.coordinate_uuid }}
-                            </option>
-                          }
-                        } @else {
-                          <option value="null">station not found</option>
-                        }
-                      </select>
-                    </td>
-                    <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <a href="javascript:;" class="text-xs font-semibold leading-tight text-slate-400"> Edit </a>
-                    </td>
-                  </tr>
-                }
-              }
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+          } @empty {
+            <tr>
+              <td colspan="8" class="w-full px-6 py-3 text-xs font-semibold leading-normal text-center bg-transparent border-t border-gray-200 shadow-none whitespace-nowrap">
+                <div class="w-full flex flex-row justify-center items-center px-2 ">
+                  <div class="">No data found</div>
+                </div>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
 
+    </app-table>
+  }
 </main>

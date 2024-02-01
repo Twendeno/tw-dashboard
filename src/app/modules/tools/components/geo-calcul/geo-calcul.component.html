@@ -9,8 +9,11 @@
 
             <div class="flex space-x-2">
               <div class="w-full mb-4" formGroupName="address">
-                <select  formControlName="departureName" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow">
+                <select  formControlName="departureName"  (change)="onChangesDepartureSelect($event)" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow">
                   <option value="">Select an departure address</option>
+                  @for (stationItem of (stations$()|async)?.data;track stationItem.uuid) {
+                    <option value="{{ stationItem.latLng }}"> {{ stationItem.name }}</option>
+                  }
                 </select>
                 @if (departureAddressName.invalid && (departureAddressName.dirty || departureAddressName!.touched)){
                 }
@@ -27,7 +30,7 @@
 
             <div class="flex space-x-2" formGroupName="departure">
               <div class="w-full mb-4">
-                <input type="text" formControlName="latitude" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" placeholder="Latitude" aria-label="Name" aria-describedby="email-addon" />
+                <input type="text" formControlName="latitude" value="{{this.departureSelected().split(',')[0]}}" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" placeholder="Latitude" aria-label="Name" aria-describedby="email-addon" />
                 @if (latitudeDeparture.invalid && (latitudeDeparture.dirty || latitudeDeparture.touched)){
                   @if (latitudeDeparture.errors?.['pattern']){
                     <small class="text-xs ">Latitude must be like this <strong>(7° 28' E)</strong>  or <strong>(7.45458)</strong></small>
@@ -38,7 +41,7 @@
                 }
               </div>
               <div class="w-full mb-4">
-                <input type="text" formControlName="longitude" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" placeholder="Longitude" aria-label="Email" aria-describedby="email-addon" />
+                <input type="text" formControlName="longitude" value="{{this.departureSelected().split(',')[1]}}" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" placeholder="Longitude" aria-label="Email" aria-describedby="email-addon" />
                 @if (longitudeDeparture.invalid && (longitudeDeparture.dirty || longitudeDeparture!.touched)){
                   @if (longitudeDeparture.errors?.['pattern']){
                     <small class="text-xs">Latitude must be like this <strong>(7° 28' E)</strong>  or <strong>(7.45458)</strong></small>
@@ -57,8 +60,11 @@
 
             <div class="flex  space-x-2">
               <div class="w-full mb-4" formGroupName="address">
-                <select  formControlName="ArrivalName" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow">
+                <select  formControlName="ArrivalName" (change)="onChangesArrivalSelect($event)" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow">
                   <option value="">Select an arrival address</option>
+                  @for (stationItem of (stations$()|async)?.data;track stationItem.uuid) {
+                    <option value="{{ stationItem.latLng }}"> {{ stationItem.name }}</option>
+                  }
                 </select>
                 @if (arrivalAddressName.invalid && (arrivalAddressName.dirty || arrivalAddressName!.touched)){
                 }
@@ -75,7 +81,7 @@
 
             <div class="flex space-x-2" formGroupName="arrival">
               <div class="w-full mb-4">
-                <input type="text" formControlName="latitude" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" placeholder="Latitude" aria-label="Name" aria-describedby="email-addon" />
+                <input type="text" formControlName="latitude" value="{{this.arrivalSelected().split(',')[0]}}" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" placeholder="Latitude" aria-label="Name" aria-describedby="email-addon" />
                 @if (latitudeArrival.invalid && (latitudeArrival.dirty || latitudeArrival.touched)){
                   @if (latitudeArrival.errors?.['pattern']){
                     <small class="text-xs">Latitude must be like this <strong>(7° 28' E)</strong>  or <strong>(7.45458)</strong></small>
@@ -86,7 +92,7 @@
                 }
               </div>
               <div class="w-full mb-4">
-                <input type="text" formControlName="longitude" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" placeholder="Longitude" aria-label="Email" aria-describedby="email-addon" />
+                <input type="text" formControlName="longitude" value="{{this.arrivalSelected().split(',')[1]}}" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" placeholder="Longitude" aria-label="Email" aria-describedby="email-addon" />
                 @if (longitudeArrival.invalid && (longitudeArrival.dirty || longitudeArrival!.touched)){
                   @if (longitudeArrival.errors?.['pattern']){
                     <small class="text-xs">Latitude must be like this <strong>(7° 28' E)</strong>  or <strong>(7.45458)</strong></small>

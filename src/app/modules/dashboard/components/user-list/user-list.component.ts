@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {NavBarService} from "@app/services/navbar/nav-bar.service";
 
 @Component({
   selector: 'app-user-list',
@@ -8,5 +9,6 @@ import { Component } from '@angular/core';
   styleUrl: './user-list.component.css'
 })
 export class UserListComponent {
+  navBarService = inject(NavBarService);
 
 }

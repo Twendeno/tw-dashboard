@@ -26,6 +26,8 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
               "src/styles.css",
               "src/assets/css/soft-ui-dashboard-tailwind.css",
               "src/assets/css/soft-ui-dashboard-tailwind.min.css",

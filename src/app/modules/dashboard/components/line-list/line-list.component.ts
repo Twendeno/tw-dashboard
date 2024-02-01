@@ -1,14 +1,22 @@
 import {
-  Component,
+  Component, computed,
   inject,
-  input,
   signal
 } from '@angular/core';
-import {GeometryType} from "@app/models/geometry-type";
-import {GeometryService} from "@app/services/dashboard/geometry.service";
-import {AsyncPipe, JsonPipe} from "@angular/common";
-import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
+import {GeometryService} from "@app/services/dashboard/geometry/geometry.service";
+import {AsyncPipe, JsonPipe, NgStyle} from "@angular/common";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpEventType} from "@angular/common/http";
+import {FilterPipe} from "@app/shared/utils/filter/filter.pipe";
+import {Geometry} from "@app/models/dashboard/geometry";
+import {ToastModule} from "primeng/toast";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {GeometryFormComponent} from "@app/shared/components/geometry-form/geometry-form.component";
+import {ConfirmationService, MessageService} from "primeng/api";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {SortPipe} from "@app/shared/utils/sort/sort.pipe";
+import {TableComponent} from "@app/shared/components/table/table.component";
+import {MethodeUtil} from "@app/shared/utils/methode.util";
 
 @Component({
   selector: 'app-line-list',
@@ -16,54 +24,109 @@ import {HttpEventType} from "@angular/common/http";
   imports: [
     AsyncPipe,
     JsonPipe,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgStyle,
+    FormsModule,
+    FilterPipe,
+    ToastModule,
+    ConfirmDialogModule,
+    SortPipe,
+    TableComponent
   ],
   templateUrl: './line-list.component.html',
   styleUrl: './line-list.component.css'
 })
 export class LineListComponent {
 
-  geometryTypes = input([
-      GeometryType.POINT, GeometryType.LINESTRING, GeometryType.POLYGON,
-      GeometryType.MULTIPOINT, GeometryType.MULTILINESTRING, GeometryType.MULTIPOLYGON,
-      GeometryType.GEOMETRYCOLLECTION, GeometryType.FEATURE, GeometryType.FEATURECOLLECTION
-    ]
-  );
-
   private readonly geometryService = inject(GeometryService);
-  private readonly fb = inject(FormBuilder);
-  geometryForm = this.fb.group({
-    name: ['', [Validators.required]],
-    type: ['', [Validators.required]]
-  });
+  geometries$ = computed(() => this.geometryService.geometries(this.pageSelected(), this.perPage()));
 
-  geometries = signal(this.geometryService.geometries);
+  protected readonly GeometryFormComponent = GeometryFormComponent;
 
-  onSubmit() {
-    if (this.geometryForm.invalid) {
-      return;
-    }
+  private readonly dialogService = inject(DialogService);
+  private readonly messageService = inject(MessageService);
+  private confirmDialogService = inject(ConfirmationService);
+
+  private ref: DynamicDialogRef | undefined;
+
+  headers = [
+    {field: 'name', isFilter: true, order: ''},
+    {field: 'reference', isFilter: true, order: ''},
+    {field: 'color', isFilter: false, order: ''},
+    {field: 'type', isFilter: false, order: ''},
+    {field: 'Nb station', isFilter: true, order: ''},
+    {field: 'Station list', isFilter: false, order: ''}
+  ];
+  sortValue = {field: 'name', isFilter: true, order: 'asc'};
+  searchValue = "";
+  tableName = "Geometry";
+  pageSelected = signal(1);
+  perPage = signal(5);
+
+  onDelete(uuid: string) {
     this.geometryService
-      .create(this.geometryForm.value.name!, this.geometryForm.value.type!)
+      .delete(uuid)
       .subscribe((event: any) => {
         switch (event.type) {
           case HttpEventType.UploadProgress:
             console.log('Uploaded ' + event.loaded + ' out of ' + event.total + ' bytes');
             break;
           case HttpEventType.Response:
-            this.geometryForm.reset();
-            this.geometries.set(this.geometryService.geometries)
+            this.messageService.add({severity: 'success', summary: 'Success', detail: `${event.body.message}`});
+            this.geometries$ = signal(this.geometryService.geometries(this.pageSelected(), this.perPage()));
             break;
         }
       });
   }
 
-  get name() {
-    return this.geometryForm.get('name')!;
+  onShowDialog(geometry: Geometry = {} as Geometry) {
+    MethodeUtil
+      .onShowDialog(geometry, this.perPage(), this.pageSelected(), this.ref!, this.dialogService, this.GeometryFormComponent, this.messageService, this.tableName)
+      .onClose
+      .subscribe((result: any) => {
+        if (result) this.geometries$ = signal(this.geometryService.geometries(this.pageSelected(), this.perPage()));
+      });
   }
 
-  get type() {
-    return this.geometryForm.get('type')!;
+  onConfirmDelete(uuid: string) {
+    this.confirmDialogService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'pi pi-trash',
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
+      defaultFocus: 'reject',
+      rejectIcon: 'pi pi-times',
+      acceptButtonStyleClass: 'p-button-danger',
+      rejectButtonStyleClass: 'p-button-secondary',
+      accept: () => {
+        this.onDelete(uuid);
+      },
+      reject: () => {
+        //reject action
+      }
+    });
+
+  }
+
+  onChangeEntryPerPage(perPageSelected: number) {
+    this.perPage.set(perPageSelected);
+  }
+
+  onPaginationChanged(pageValueSelected: number) {
+    this.pageSelected.set(pageValueSelected);
+  }
+
+  onSearchChanged(searchValueChanged: string) {
+    this.searchValue = searchValueChanged;
+  }
+
+  onSortChanged(sortValueChanged: any) {
+    this.sortValue = sortValueChanged;
+  }
+  onReloadTableData(reloadTableData:any){
+    this.geometries$ = signal(this.geometryService.geometries(this.pageSelected(), this.perPage()));
   }
 
 }

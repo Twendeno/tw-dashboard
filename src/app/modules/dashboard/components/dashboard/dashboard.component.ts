@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {RouterOutlet} from "@angular/router";
 import {AsideBarComponent} from "@app/shared/components/aside-bar/aside-bar.component";
 import {NavBarComponent} from "@app/shared/components/nav-bar/nav-bar.component";
 import {FooterComponent} from "@app/shared/components/footer/footer.component";
+import {NavBarService} from "@app/services/navbar/nav-bar.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -17,5 +18,5 @@ import {FooterComponent} from "@app/shared/components/footer/footer.component";
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-
+  navBarService = inject(NavBarService);
 }

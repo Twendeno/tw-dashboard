@@ -1,6 +1,7 @@
 import {Component, input} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
 import {RouterLink, RouterLinkActive} from "@angular/router";
+import {Constant} from "@app/shared/utils/constant/constant";
 
 @Component({
   selector: 'app-aside-bar',
@@ -16,23 +17,25 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
 export class AsideBarComponent {
 
   personalList = input([
-      {name: 'Users', route: 'users'},
-      {name: 'Profile', route: 'profile'},
-      {name: 'Tools', route: 'tools'},
+      {name: 'Users', route: 'users',icon: 'assets/img/shapes/users.svg'},
+      {name: 'Profile', route: 'profile',icon: 'assets/img/shapes/profile.svg'},
+      {name: 'Tools', route: 'tools',icon: 'assets/img/shapes/tools.svg'},
     ]
   );
 
   optionsList = input([
-      {name: 'Departments', route: 'departments'},
-      {name: 'Towns', route: 'towns'},
-      {name: 'Districts', route: 'districts'},
+      {name: 'Departments', route: 'departments',icon: 'assets/img/shapes/department.svg'},
+      {name: 'Towns', route: 'towns',icon: 'assets/img/shapes/town.svg'},
+      {name: 'Districts', route: 'districts',icon: 'assets/img/shapes/district.svg'},
     ]
   );
 
   transportList = input([
-      {name: 'Lines', route: 'lines'},
-      {name: 'Stations', route: 'stations'},
-      {name: 'directions', route: 'directions'},
+      {name: 'Lines', route: 'lines',icon: 'assets/img/shapes/line.svg'},
+      {name: 'Stations', route: 'stations',icon: 'assets/img/shapes/station.svg'},
+      {name: 'directions', route: 'directions',icon: 'assets/img/shapes/direction.svg'},
     ]
   );
+
+  apiDocLink = Constant.SERVER_URL+"api-docs";
 }

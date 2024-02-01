@@ -1,0 +1,123 @@
+<div class="flex-none w-full max-w-full px-3">
+  <div
+    class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+    <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+      <div class="flex justify-between items-center">
+
+        <h6>{{ tableName }} table</h6>
+        <div class="text-center">
+          <button type="button" (click)="onShowDialog()"
+                  class="flex space-x-1 w-full px-6 py-3 mt-6 mb-0 font-bold text-center  text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer shadow-soft-md bg-x-25 bg-150 leading-pro text-xs ease-soft-in tracking-tight-soft bg-gradient-to-tl from-blue-600 to-cyan-400 hover:scale-102 hover:shadow-soft-xs active:opacity-85">
+            <i class="pi pi-plus-circle"></i>
+            <span>Add new {{ tableName }}</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <div class="flex-auto px-0 pt-0 pb-2 mt-4">
+      <div class="p-0 overflow-x-auto">
+
+        <div class="items-center justify-between px-4 py-2 w-full flex mb-0 align-top border-gray-200 text-slate-500">
+          <div class=" space-x-2 items-center">
+            <select (change)="onChangeEntryPerPage($event)">
+              @for(perPageItem of [5,10,15,20,15,30];track perPageItem){
+                <option value="{{perPageItem}}" [selected]="perPageItem==perPage() ">{{perPageItem}}</option>
+              }
+            </select>
+            <span>entries per page</span>
+          </div>
+
+          <div class="flex items-center md:ml-auto md:pr-4">
+            <div class="relative flex flex-wrap items-stretch w-full transition-all rounded-lg ease-soft">
+              <input type="text" name="searchValue"  [ngModel]="searchValue" (ngModelChange)="onSearchValueChange($event)" class="pl-8.75 text-sm focus:shadow-soft-primary-outline ease-soft w-1/100 leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" placeholder="Search here..." />
+            </div>
+          </div>
+        </div>
+
+        <table class="items-center justify-center w-full mb-0 align-top border-gray-200 text-slate-500">
+          <thead class="align-bottom">
+          <tr>
+            @for (column of headers;track column) {
+              <th
+                class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                <span class="text-center align-middle">
+                  {{ column.field }}
+                  @if (column.isFilter){
+                    @switch (column.order){
+                      @case ('asc'){
+                        <i class="pi pi-sort-alpha-down h-4 cursor-pointer" (click)="onSortColumn(column)"></i>
+                      }
+                      @case ('desc'){
+                        <i class="pi pi-sort-alpha-up h-4 cursor-pointer" (click)="onSortColumn(column)"></i>
+                      }
+                      @case (''){
+                        <i class="pi pi-sort h-4 cursor-pointer" (click)="onSortColumn(column)"></i>
+                      }
+                    }
+                  }
+                </span>
+              </th>
+            }
+            <th class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-gray-200 border-solid shadow-none tracking-none whitespace-nowrap">Actions</th>
+          </tr>
+          </thead>
+
+          @if(myService$; as myService){
+
+            <ng-content select="[tbody]"></ng-content>
+
+            <tfoot>
+            <tr>
+              @if (myService!.meta!; as myServiceMeta){
+                <td colspan="8" class="px-6 py-3 text-xs font-semibold leading-normal text-right bg-transparent border-t border-gray-200 shadow-none whitespace-nowrap">
+                  <div class="w-full flex flex-row justify-between px-2 ">
+                    <div class="">Showing {{ myServiceMeta.currentPage! }} to {{ myServiceMeta.perPage! }} of {{ myServiceMeta.total! }} entries</div>
+                    <div class="flex items-center">
+
+                      @if (myServiceMeta.prev && pageSelected()>=1; as myServiceMetaPrevPage) {
+                        <a class="cursor-pointer text-xs font-semibold leading-normal text-right bg-transparent border-t border-gray-200 shadow-none whitespace-nowrap" (click)="onPreviousPage()" >PREVIOUS</a>
+                      } @else {
+                        <a class="cursor-no-drop">PREVIOUS</a>
+                      }
+
+                      <div class="flex space-x-2 px-2 mx-4 items-center">
+                        @if (myServiceMeta.lastPage; as geometryMetaLastPage) {
+                          @for (page of Array(geometryMetaLastPage);track page; let idx = $index) {
+                            @if ( myServiceMeta.currentPage == idx+1){
+                              <a class="cursor-pointer border rounded-full bg-gradient-to-tl from-blue-400 to-cyan-300 px-2.5 py-1" (click)="onPagination(idx+1)" >{{ idx+1 }}</a>
+                            } @else {
+                              <a class="cursor-pointer border rounded-full hover:bg-gray-300 px-2.5  py-1" (click)="onPagination(idx+1)">{{ idx+1 }}</a>
+                            }
+                          }
+                        }
+                      </div>
+
+                      @if (myServiceMeta.next && pageSelected()<myServiceMeta.lastPage; as myServiceMetaNextPage) {
+                        <a class="cursor-pointer text-xs font-semibold leading-normal text-right bg-transparent border-t border-gray-200 shadow-none whitespace-nowrap" (click)="onNextPage()">NEXT</a>
+                      } @else {
+                        <a class="cursor-no-drop">NEXT</a>
+                      }
+
+                    </div>
+                  </div>
+                </td>
+              }
+            </tr>
+            </tfoot>
+          } @else {
+            <tbody>
+            <tr>
+              <td colspan="8" class="w-full px-6 py-3 text-xs font-semibold leading-normal text-center bg-transparent border-t border-gray-200 shadow-none whitespace-nowrap">
+                <div class="w-full flex flex-row justify-center items-center px-2 ">
+                  <div class="">No data found</div>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          }
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

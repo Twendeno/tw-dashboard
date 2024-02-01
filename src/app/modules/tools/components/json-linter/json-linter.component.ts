@@ -1,5 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {JsonEditorComponent, JsonEditorOptions, NgJsonEditorModule} from "ang-jsoneditor";
+import {MethodeUtil} from "@app/shared/utils/methode.util";
 
 @Component({
   selector: 'app-json-linter',
