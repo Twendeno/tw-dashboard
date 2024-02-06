@@ -12,5 +12,8 @@ export interface Geometry {
   reference: string
   createdAt: string
   updatedAt: string
-  geometry_uuid: string
+  department_uuid: string
+  town_uuid: string
+  assignedBy: string
+  lastModifiedBy: string
 }

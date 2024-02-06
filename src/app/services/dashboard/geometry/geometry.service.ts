@@ -19,12 +19,12 @@ export class GeometryService {
     return this.http.get<Root<Geometry[]>>(this.url+'?page='+page+'&perPage='+perPage);
   }
 
-  create(name:string, type:string,geodata:string): Observable<HttpEvent<Root<Geometry>>> {
-    return this.http.post<Root<Geometry>>(this.url, {name, type, geodata}, {reportProgress: true, observe: 'events'});
+  create(geometry:any): Observable<HttpEvent<Root<Geometry>>> {
+    return this.http.post<Root<Geometry>>(this.url, geometry, {reportProgress: true, observe: 'events'});
   }
 
-  update(uuid:string,name:string, type:string,geodata:string): Observable<HttpEvent<Root<Geometry>>> {
-    return this.http.put<Root<Geometry>>(this.url+'/'+uuid, {name, type, geodata}, {reportProgress: true, observe: 'events'});
+  update(uuid:string,geometry:any): Observable<HttpEvent<Root<Geometry>>> {
+    return this.http.put<Root<Geometry>>(this.url+'/'+uuid, geometry, {reportProgress: true, observe: 'events'});
   }
 
   delete(uuid:string): Observable<HttpEvent<Root<Geometry>>> {

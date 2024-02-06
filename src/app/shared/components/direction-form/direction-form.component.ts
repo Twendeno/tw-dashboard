@@ -76,6 +76,7 @@ export class DirectionFormComponent implements OnInit{
     }
 
     this.directionService.create(direction).subscribe((event: any) => {
+
       switch (event.type) {
         case HttpEventType.UploadProgress:
           console.log('Uploaded ' + event.loaded + ' out of ' + event.total + ' bytes');

@@ -4,4 +4,5 @@ export interface Count {
   districts: number
   coordinates: number
   geometry: number
+  geometries: number
 }

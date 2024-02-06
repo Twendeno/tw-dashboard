@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import {DialogService} from "primeng/dynamicdialog";
-import {ConfirmationService, MessageService} from "primeng/api";
+import {ConfirmationService} from "primeng/api";
 
 
 @NgModule({
@@ -11,6 +11,6 @@ import {ConfirmationService, MessageService} from "primeng/api";
     CommonModule,
     DashboardRoutingModule
   ],
-  providers:[DialogService,MessageService,ConfirmationService]
+  providers:[DialogService,ConfirmationService]
 })
 export class DashboardModule { }

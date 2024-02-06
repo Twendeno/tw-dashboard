@@ -13,20 +13,22 @@ import {Station} from "@app/models/dashboard/station";
 import {MethodeUtil} from "@app/shared/utils/methode.util";
 import {FilterPipe} from "@app/shared/utils/filter/filter.pipe";
 import {SortPipe} from "@app/shared/utils/sort/sort.pipe";
+import {TableDataNotFoundComponent} from "@app/shared/components/table-data-not-found/table-data-not-found.component";
 
 @Component({
   selector: 'app-direction-list',
   standalone: true,
-  imports: [
-    AsyncPipe,
-    ReactiveFormsModule,
-    JsonPipe,
-    ConfirmDialogModule,
-    ToastModule,
-    TableComponent,
-    FilterPipe,
-    SortPipe
-  ],
+    imports: [
+        AsyncPipe,
+        ReactiveFormsModule,
+        JsonPipe,
+        ConfirmDialogModule,
+        ToastModule,
+        TableComponent,
+        FilterPipe,
+        SortPipe,
+        TableDataNotFoundComponent
+    ],
   templateUrl: './direction-list.component.html',
   styleUrl: './direction-list.component.css'
 })

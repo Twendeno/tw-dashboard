@@ -4,6 +4,7 @@ import {Constant} from "@app/shared/utils/constant/constant";
 import {Observable} from "rxjs";
 import {Root} from "@app/models/root";
 import {Station} from "@app/models/dashboard/station";
+import {Direction} from "@app/models/dashboard/direction";
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,13 @@ export class StationService {
 
   delete(uuid:string): Observable<HttpEvent<Root<Station>>> {
     return this.http.delete<Root<Station>>(this.url+'/'+uuid, {reportProgress: true, observe: 'events'});
+  }
+
+  createMany(coordinates: number[][]): Observable<HttpEvent<any>> {
+    return this.http.post<Root<Station[]>>(this.url+'/many', coordinates, {reportProgress: true, observe: 'events'});
+  }
+
+  findOneByLatLng(latLng: string): Observable<Root<Station>> {
+    return this.http.get<Root<Station>>(this.url + '/latlng/' + latLng);
   }
 }
