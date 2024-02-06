@@ -4,7 +4,7 @@ import {
   signal
 } from '@angular/core';
 import {GeometryService} from "@app/services/dashboard/geometry/geometry.service";
-import {AsyncPipe, JsonPipe, NgStyle} from "@angular/common";
+import {AsyncPipe, DatePipe, JsonPipe, NgStyle} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpEventType} from "@angular/common/http";
 import {FilterPipe} from "@app/shared/utils/filter/filter.pipe";
@@ -17,6 +17,7 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {SortPipe} from "@app/shared/utils/sort/sort.pipe";
 import {TableComponent} from "@app/shared/components/table/table.component";
 import {MethodeUtil} from "@app/shared/utils/methode.util";
+import {TableDataNotFoundComponent} from "@app/shared/components/table-data-not-found/table-data-not-found.component";
 
 @Component({
   selector: 'app-line-list',
@@ -31,7 +32,9 @@ import {MethodeUtil} from "@app/shared/utils/methode.util";
     ToastModule,
     ConfirmDialogModule,
     SortPipe,
-    TableComponent
+    TableComponent,
+    TableDataNotFoundComponent,
+    DatePipe
   ],
   templateUrl: './line-list.component.html',
   styleUrl: './line-list.component.css'
@@ -55,7 +58,10 @@ export class LineListComponent {
     {field: 'color', isFilter: false, order: ''},
     {field: 'type', isFilter: false, order: ''},
     {field: 'Nb station', isFilter: true, order: ''},
-    {field: 'Station list', isFilter: false, order: ''}
+    {field: 'Station list', isFilter: false, order: ''},
+    {field: 'Create by', isFilter: false, order: ''},
+    {field: 'Last update', isFilter: false, order: ''},
+    {field: 'Updated at', isFilter: false, order: ''},
   ];
   sortValue = {field: 'name', isFilter: true, order: 'asc'};
   searchValue = "";
@@ -109,7 +115,6 @@ export class LineListComponent {
     });
 
   }
-
   onChangeEntryPerPage(perPageSelected: number) {
     this.perPage.set(perPageSelected);
   }

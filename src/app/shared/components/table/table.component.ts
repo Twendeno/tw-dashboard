@@ -6,18 +6,20 @@ import {SortPipe} from "@app/shared/utils/sort/sort.pipe";
 import {MessageService} from "primeng/api";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {MethodeUtil} from "@app/shared/utils/methode.util";
+import {TableDataNotFoundComponent} from "@app/shared/components/table-data-not-found/table-data-not-found.component";
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [
-    AsyncPipe,
-    FilterPipe,
-    FormsModule,
-    SortPipe,
-    NgStyle,
-    JsonPipe
-  ],
+    imports: [
+        AsyncPipe,
+        FilterPipe,
+        FormsModule,
+        SortPipe,
+        NgStyle,
+        JsonPipe,
+        TableDataNotFoundComponent
+    ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'
 })

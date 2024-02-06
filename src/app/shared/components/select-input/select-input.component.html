@@ -1,0 +1,17 @@
+<label for="{{label}}" class="block mb-2 text-sm font-bold text-slate-700">{{label}}</label>
+@if (hasUuid){
+  <select id="{{label}}" formControlName="{{controlName}}" (change)="selectedOption.emit($event.target)" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:shadow-soft-primary-outline focus:border-fuchsia-300 focus:outline-none focus:transition-shadow block w-full p-2.5 ">
+    <option selected>Choose {{label}}</option>
+    @for (dataItem of optionsData;track dataItem.uuid) {
+      <option value="{{ dataItem.uuid }}"> {{ dataItem.name }}</option>
+    }
+  </select>
+} @else {
+  <select id="{{label}}" formControlName="{{controlName}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:shadow-soft-primary-outline focus:border-fuchsia-300 focus:outline-none focus:transition-shadow block w-full p-2.5 dark:bg-gray-700">
+    <option selected>Choose {{label}}</option>
+    @for (dataItem of optionsData;track dataItem) {
+      <option value="{{ dataItem }}"> {{ dataItem }}</option>
+    }
+  </select>
+}
+

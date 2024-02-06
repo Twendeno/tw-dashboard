@@ -41,7 +41,7 @@
             @for (column of headers;track column) {
               <th
                 class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                <span class="text-center align-middle">
+                <span class="flex items-center justify-center text-center align-middle">
                   {{ column.field }}
                   @if (column.isFilter){
                     @switch (column.order){
@@ -59,7 +59,7 @@
                 </span>
               </th>
             }
-            <th class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-gray-200 border-solid shadow-none tracking-none whitespace-nowrap">Actions</th>
+            <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Actions</th>
           </tr>
           </thead>
 
@@ -107,13 +107,7 @@
             </tfoot>
           } @else {
             <tbody>
-            <tr>
-              <td colspan="8" class="w-full px-6 py-3 text-xs font-semibold leading-normal text-center bg-transparent border-t border-gray-200 shadow-none whitespace-nowrap">
-                <div class="w-full flex flex-row justify-center items-center px-2 ">
-                  <div class="">No data found</div>
-                </div>
-              </td>
-            </tr>
+            <app-table-data-not-found/>
             </tbody>
           }
         </table>

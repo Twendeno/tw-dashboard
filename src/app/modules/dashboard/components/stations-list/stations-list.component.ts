@@ -13,6 +13,7 @@ import {FilterPipe} from "@app/shared/utils/filter/filter.pipe";
 import {SortPipe} from "@app/shared/utils/sort/sort.pipe";
 import {MethodeUtil} from "@app/shared/utils/methode.util";
 import {StationFormComponent} from "@app/shared/components/station-form/station-form.component";
+import {TableDataNotFoundComponent} from "@app/shared/components/table-data-not-found/table-data-not-found.component";
 
 @Component({
   selector: 'app-stations-list',
@@ -25,7 +26,8 @@ import {StationFormComponent} from "@app/shared/components/station-form/station-
     ToastModule,
     TableComponent,
     FilterPipe,
-    SortPipe
+    SortPipe,
+    TableDataNotFoundComponent
   ],
   templateUrl: './stations-list.component.html',
   styleUrl: './stations-list.component.css'

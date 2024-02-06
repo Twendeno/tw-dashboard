@@ -1,1 +1,64 @@
-<p>district-list works!</p>
+<main class="flex flex-col -mx-3">
+  <!--Forms-->
+  <p-toast></p-toast>
+  <!--End Forms-->
+
+  <p-confirmDialog></p-confirmDialog>
+
+  @if (districts$() | async;as districts) {
+    <app-table
+      (pageSelectedOutput)="onPaginationChanged($event)"
+      (searchValueOutput)="onSearchChanged($event)"
+      (perPageOutput)="onChangeEntryPerPage($event)"
+      (sortValueOutput)="onSortChanged($event)"
+      (reloadTableData)="onReloadTableData($event)"
+      [perPage]="perPage"
+      [pageSelected]="pageSelected"
+      [searchValue]="searchValue"
+      [sortColumnSelected]="sortValue"
+      [tableName]="tableName"
+      [dynamicComponent]="DistrictFormComponent"
+      [myService$]="districts"
+      [headers]="headers">
+      <tbody tbody>
+        @if (districts.data;as districtData) {
+          @for (districtItem of districtData | filter: searchValue : ['name', 'reference'] | sort:sortValue.order:sortValue.field;track districtItem.uuid) {
+            <tr>
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                <div class="flex items-center justify-center px-2">
+                  <div class="my-auto">
+                    <h6 class="mb-0 text-sm leading-normal">{{ districtItem.name }}</h6>
+                  </div>
+                </div>
+              </td>
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                <p class="flex items-center justify-center mb-0 text-sm font-semibold leading-normal">{{ districtItem.area }}</p>
+              </td>
+              <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                <div class="flex space-x-1.5 items-center justify-center">
+                  <a (click)="onShowDialog(districtItem)"
+                     class="cursor-pointer text-xs font-semibold leading-tight text-slate-400"> <i
+                    class="pi pi-file-edit"></i> </a>
+                  <a (click)="onConfirmDelete(districtItem.uuid)"
+                     class=" cursor-pointer text-xs font-semibold leading-tight text-slate-400"> <i
+                    class="pi pi-trash"></i> </a>
+                  <a class="cursor-pointer text-xs font-semibold leading-tight text-slate-400">
+                    <i class="pi pi-eye"></i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          }@empty {
+            <tr>
+              <td colspan="8" class="w-full px-6 py-3 text-xs font-semibold leading-normal text-center bg-transparent border-t border-gray-200 shadow-none whitespace-nowrap">
+                <div class="w-full flex flex-row justify-center items-center px-2 ">
+                  <div class="">Empty data</div>
+                </div>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </app-table>
+  }
+</main>
