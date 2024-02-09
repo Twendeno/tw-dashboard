@@ -10,9 +10,10 @@ import {LineListComponent} from "@app/modules/dashboard/components/line-list/lin
 import {StationsListComponent} from "@app/modules/dashboard/components/stations-list/stations-list.component";
 import {DirectionListComponent} from "@app/modules/dashboard/components/direction-list/direction-list.component";
 import {ToolsComponent} from "@app/modules/tools/components/tools/tools.component";
+import {PrivacyPolicyComponent} from "@app/shared/components/privacy-policy/privacy-policy.component";
+import {AboutUsComponent} from "@app/shared/components/about-us/about-us.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'users', component: UserListComponent},
   {
@@ -33,6 +34,9 @@ const routes: Routes = [
       {path: '', loadChildren: () => import('@app/modules/tools/tools.module').then(m => m.ToolsModule)}
     ]
   },
+  {path: 'privacy-policy', component: PrivacyPolicyComponent},
+  {path: 'about-us', component: AboutUsComponent},
+  {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: HomeComponent},
 ];
 

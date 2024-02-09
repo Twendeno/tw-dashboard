@@ -14,21 +14,23 @@ import {SortPipe} from "@app/shared/utils/sort/sort.pipe";
 import {MethodeUtil} from "@app/shared/utils/methode.util";
 import {StationFormComponent} from "@app/shared/components/station-form/station-form.component";
 import {TableDataNotFoundComponent} from "@app/shared/components/table-data-not-found/table-data-not-found.component";
+import {TruncatePipe} from "@app/shared/utils/truncate/truncate.pipe";
 
 @Component({
   selector: 'app-stations-list',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    JsonPipe,
-    AsyncPipe,
-    ConfirmDialogModule,
-    ToastModule,
-    TableComponent,
-    FilterPipe,
-    SortPipe,
-    TableDataNotFoundComponent
-  ],
+    imports: [
+        ReactiveFormsModule,
+        JsonPipe,
+        AsyncPipe,
+        ConfirmDialogModule,
+        ToastModule,
+        TableComponent,
+        FilterPipe,
+        SortPipe,
+        TableDataNotFoundComponent,
+        TruncatePipe
+    ],
   templateUrl: './stations-list.component.html',
   styleUrl: './stations-list.component.css'
 })

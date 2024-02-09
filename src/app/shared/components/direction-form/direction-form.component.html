@@ -1,9 +1,27 @@
 <div
   class="container flex-auto p-6 relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
   <div class="py-6  mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-    <h5>New direction</h5>
+    <h5>
+      @if (dataExtras.isEdit) {
+        Edit direction
+      } @else {
+        New direction
+      }
+    </h5>
   </div>
   <form class="" [formGroup]="directionForm" (ngSubmit)="onSubmit()">
+    <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Departure</label>
+    <div class="mb-4">
+      <input formControlName="departure" type="text"
+             class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow"
+             placeholder="Departure" aria-label="departure" aria-describedby="departure"/>
+    </div>
+    <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Arrival</label>
+    <div class="mb-4">
+      <input formControlName="arrival" type="text"
+             class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow"
+             placeholder="Arrival" aria-label="arrival" aria-describedby="arrival"/>
+    </div>
     <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Geometry</label>
     <div class="mb-4">
       <select formControlName="geometry_uuid"

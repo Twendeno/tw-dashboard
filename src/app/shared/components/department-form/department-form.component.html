@@ -1,7 +1,13 @@
 <div
   class="container flex-auto p-6 relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
   <div class="flex justify-between py-6  mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-    <h5>New Department</h5>
+    <h5>
+      @if (dataExtras.isEdit) {
+        Edit department
+      } @else {
+        New department
+      }
+    </h5>
   </div>
   <form class="" [formGroup]="departmentForm" (ngSubmit)="onSubmit()">
     <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Name</label>

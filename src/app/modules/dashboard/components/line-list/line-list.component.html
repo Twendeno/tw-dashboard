@@ -50,7 +50,7 @@
                 <select class="flex items-center justify-center text-xs font-semibold leading-tight">
                   @if (geometryItem.coordinates.length > 0) {
                     @for (coordinateItem  of geometryItem.coordinates;track coordinateItem) {
-                      <option value="{{ coordinateItem.coordinate_uuid }}"> {{ coordinateItem.coordinate_uuid }}
+                      <option value="{{ coordinateItem.coordinate_uuid }}"> {{ coordinateItem.coordinate_uuid | truncate:10 }}
                       </option>
                     }
                   } @else {

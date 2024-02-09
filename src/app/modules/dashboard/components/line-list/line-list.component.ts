@@ -18,6 +18,7 @@ import {SortPipe} from "@app/shared/utils/sort/sort.pipe";
 import {TableComponent} from "@app/shared/components/table/table.component";
 import {MethodeUtil} from "@app/shared/utils/methode.util";
 import {TableDataNotFoundComponent} from "@app/shared/components/table-data-not-found/table-data-not-found.component";
+import {TruncatePipe} from "@app/shared/utils/truncate/truncate.pipe";
 
 @Component({
   selector: 'app-line-list',
@@ -34,7 +35,8 @@ import {TableDataNotFoundComponent} from "@app/shared/components/table-data-not-
     SortPipe,
     TableComponent,
     TableDataNotFoundComponent,
-    DatePipe
+    DatePipe,
+    TruncatePipe
   ],
   templateUrl: './line-list.component.html',
   styleUrl: './line-list.component.css'

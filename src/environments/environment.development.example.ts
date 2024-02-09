@@ -1,0 +1,19 @@
+export const environment = {
+  production:false,
+  MS_RX_API:{
+    URL:`http://localhost:3000`,
+    PORT:3000,
+    VERSION:`v1`,
+  },
+  WEATHER_API:{
+    URL:`https://api.openweathermap.org/data/2.5`,
+    API_KEY:``,
+    FORECAST:`forecast?appid=`,
+    WEATHER:`weather?appid=`,
+  },
+  TWENDENO:{
+    WEBSITE:'#',
+    BLOG:'#',
+    LICENCE:'#',
+  }
+};

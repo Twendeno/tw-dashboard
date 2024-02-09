@@ -9,4 +9,9 @@ export interface Direction {
   assignedBy: string
   geometry: Geometry
   coordinate: Station
+  name: string
+  departure: string
+  arrival: string
+  reference: string
+  isOnline: boolean
 }

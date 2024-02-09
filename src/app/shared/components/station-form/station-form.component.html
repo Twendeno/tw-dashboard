@@ -1,7 +1,13 @@
 <div
   class="container flex-auto p-6 relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
   <div class="py-6  mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-    <h5>New Station</h5>
+    <h5>
+      @if (dataExtras.isEdit) {
+        Edit station
+      } @else {
+        New station
+      }
+    </h5>
   </div>
   <form class="" [formGroup]="stationForm" (ngSubmit)="onSubmit()">
     <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Name</label>
@@ -44,7 +50,7 @@
     <div class="text-center">
       <button type="submit"
               class="inline-block w-full px-6 py-3 mt-6 mb-0 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer shadow-soft-md bg-x-25 bg-150 leading-pro text-xs ease-soft-in tracking-tight-soft bg-gradient-to-tl from-blue-600 to-cyan-400 hover:scale-102 hover:shadow-soft-xs active:opacity-85">
-        @if (dataExtras.isEdit){
+        @if (dataExtras.isEdit) {
           <span>Update</span>
         } @else {
           <span>Save</span>

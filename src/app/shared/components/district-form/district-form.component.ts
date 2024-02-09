@@ -1,8 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {AsyncPipe} from "@angular/common";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {DepartmentService} from "@app/services/dashboard/department/department.service";
-import {StationService} from "@app/services/dashboard/station/station.service";
 import {TownService} from "@app/services/dashboard/town/town.service";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {HttpEventType} from "@angular/common/http";
@@ -30,7 +28,7 @@ export class DistrictFormComponent implements OnInit{
 
   private readonly fb = inject(FormBuilder);
 
-  private geoJsonFromFile: any = { "message": 'hello Twendeno 🫵🫵🫵' }
+  private geoJsonFromFile: any = { "message": 'hello Twendeno 🌍❤️🫵' }
 
   private config = inject(DynamicDialogConfig);
   private ref = inject(DynamicDialogRef);

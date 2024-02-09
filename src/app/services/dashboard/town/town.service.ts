@@ -1,9 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpEvent} from "@angular/common/http";
-import {Constant} from "@app/shared/utils/constant/constant";
 import {Observable} from "rxjs";
 import {Root} from "@app/models/root";
 import {Town} from "@app/models/dashboard/town";
+import {environment} from "@env/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import {Town} from "@app/models/dashboard/town";
 export class TownService {
 
   private readonly http = inject(HttpClient);
-  private readonly url: string = Constant.BASE_URL + 'towns';
+  private readonly url: string = `${environment.MS_RX_API.URL}${environment.MS_RX_API.VERSION}/`+ 'towns';
 
   allTowns(): Observable<Root<Town[]>>{
     return this.http.get<Root<Town[]>>(this.url);

@@ -1,0 +1,65 @@
+<div
+  class="w-full break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border px-3 py-3 flex flex-col justify-between mt-6 ">
+  @if (weather != undefined) {
+
+    <div class="container">
+      <h5 class="font-bold text-center">{{ weather.name }}, {{ weather.sys?.country }}</h5>
+    </div>
+
+    <div class="container flex lg:flex-row flex-col justify-between items-center">
+
+      @if (weather.weather) {
+        <div class="w-full flex flex-col items-center justify-center">
+          <img class="" [ngSrc]="'http://openweathermap.org/img/wn/' + weather.weather[0].icon + '.png'"
+               alt="{{ weather.weather[0].description }}" height="64" width="64"/>
+          @if (weather.weather) {
+            <small class="text-sm">{{ weather.weather[0].description }}</small>
+          }
+        </div>
+      }
+
+      <p class="w-full text-2xl text-center align-middle"><strong>{{ weather.main?.temp }}°C</strong></p>
+
+      <div class="w-full flex flex-col text-center">
+        <small class="text-sm">Ressentie: {{ weather.main?.feels_like }}°C</small>
+        <small class="text-sm">Temp min: {{ weather.main?.temp_min }}°C</small>
+        <small class="text-sm">Temp max: {{ weather.main?.temp_max }}°C</small>
+        <small class="text-sm">Humidité: {{ weather.main?.humidity }}%</small>
+      </div>
+
+    </div>
+
+  } @else {
+    <div class="container">
+      <h5 class="font-bold text-center">Aucune donnée</h5>
+    </div>
+  }
+
+  <div class="container text-center">
+    <button (click)="onShowWeeklyForecast()" class=" inline-block px-6 py-3 mt-6 mb-0 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer shadow-soft-md bg-x-25 bg-150 leading-pro text-xs ease-soft-in tracking-tight-soft bg-gradient-to-tl from-blue-600 to-cyan-400 hover:scale-102 hover:shadow-soft-xs active:opacity-85">
+      @if (isShowWeeklyForecast) {
+        <span>hidde</span>
+      } @else {
+        <span>Show more</span>
+      }
+    </button>
+  </div>
+
+  @if (isShowWeeklyForecast) {
+    <div>
+      <h5>Weekly forecast</h5>
+      <ul class="w-full max-w-full flex overflow-x-auto space-x-1.5 py-1.5">
+        @for (forecastItem of forecast.list;track forecastItem) {
+          <li class="rounded-sm border px-1.5 flex flex-col justify-center items-center space-x-1.5">
+            <h6 class="text-sm text-center">{{ forecastItem.dt_txt | date:'dd MMM yyyy \'at\' HH:MM' }}</h6>
+            <small class="text-sm text-center"><strong> {{ forecastItem.main.temp }}°C</strong></small>
+            <small class="text-sm text-center">{{ forecastItem.weather[0].description }}</small>
+            <img [ngSrc]="'http://openweathermap.org/img/wn/' + forecastItem.weather[0].icon + '.png'"
+                 alt="Weather Icon" width="64" height="64">
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</div>
+

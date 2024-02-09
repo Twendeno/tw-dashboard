@@ -23,7 +23,7 @@ export class DepartmentFormComponent implements OnInit{
 
   private readonly fb = inject(FormBuilder);
 
-  private geoJsonFromFile: any = { "message": 'hello Twendeno 🫵🫵🫵' }
+  private geoJsonFromFile: any = { "message": 'hello Twendeno 🌍❤️🫵' }
 
   private config = inject(DynamicDialogConfig);
   private ref = inject(DynamicDialogRef);
@@ -57,8 +57,6 @@ export class DepartmentFormComponent implements OnInit{
     }
 
     this.departmentForm.value.geodata = JSON.stringify(this.geoJsonFromFile)
-
-    console.log(this.departmentForm.value)
 
     if (this.dataExtras.isEdit) {
       this.departmentService

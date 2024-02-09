@@ -1,1 +1,189 @@
-<p>home works!</p>
+<section class="w-full mx-auto">
+  <!-- row 1 -->
+  <div class="flex flex-wrap -mx-3">
+    <!-- card1 -->
+    <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+      <div class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+        <div class="flex-auto p-4">
+          <div class="flex flex-row -mx-3">
+            <div class="flex-none w-2/3 max-w-full px-3">
+              <div>
+                <p class="mb-0 font-sans text-sm font-semibold leading-normal">Users</p>
+                <h5 class="mb-0 font-bold">
+                  0
+                </h5>
+              </div>
+            </div>
+            <div class="px-3 text-right basis-1/3">
+              <p-dropdown>
+                <ng-template pTemplate="dropdownicon">
+                  <img alt="dropdown icon" ngSrc="/assets/img/shapes/users.svg" height="32" width="32">
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- card2 -->
+    <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+      <div class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+        <div class="flex-auto p-4">
+          <div class="flex flex-row -mx-3">
+            <div class="flex-none w-2/3 max-w-full px-3">
+              <div>
+                <p class="mb-0 font-sans text-sm font-semibold leading-normal">Towns</p>
+                @if((town$ | async)?.meta!.total!; as total){
+                  <h5 class="mb-0 font-bold">
+                    {{ total }}
+                  </h5>
+                }@else {
+                  <h5 class="mb-0 font-bold">0</h5>
+                }
+              </div>
+            </div>
+            <div class="px-3 text-right basis-1/3">
+              <p-dropdown>
+                <ng-template pTemplate="dropdownicon">
+                  <img alt="dropdown icon" ngSrc="/assets/img/shapes/town.svg" height="32" width="32">
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- card3 -->
+    <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+      <div class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+        <div class="flex-auto p-4">
+          <div class="flex flex-row -mx-3">
+            <div class="flex-none w-2/3 max-w-full px-3">
+              <div>
+                <p class="mb-0 font-sans text-sm font-semibold leading-normal">District</p>
+                @if((district$ | async)?.meta!.total!; as total){
+                  <h5 class="mb-0 font-bold">
+                    {{ total }}
+                  </h5>
+                }@else {
+                  <h5 class="mb-0 font-bold">0</h5>
+                }
+              </div>
+            </div>
+            <div class="px-3 text-right basis-1/3">
+              <p-dropdown>
+                <ng-template pTemplate="dropdownicon">
+                  <img alt="dropdown icon" ngSrc="/assets/img/shapes/district.svg" height="32" width="32">
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- card4 -->
+    <div class="w-full max-w-full px-3 sm:w-1/2 sm:flex-none xl:w-1/4">
+      <div class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+        <div class="flex-auto p-4">
+          <div class="flex flex-row -mx-3">
+            <div class="flex-none w-2/3 max-w-full px-3">
+              <div>
+                <p class="mb-0 font-sans text-sm font-semibold leading-normal">Lines</p>
+                @if((line$ | async)?.meta!.total; as total){
+                  <h5 class="mb-0 font-bold">
+                    {{ total }}
+                  </h5>
+                } @else {
+                  <h5 class="mb-0 font-bold">0</h5>
+                }
+              </div>
+            </div>
+            <div class="px-3 text-right basis-1/3">
+              <p-dropdown>
+                <ng-template pTemplate="dropdownicon">
+                  <img alt="dropdown icon" ngSrc="/assets/img/shapes/line.svg" height="32" width="32">
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- row 2 -->
+  <app-weather/>
+
+  <!-- row 3 -->
+  <div
+    class="w-full break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border px-3 py-3 flex flex-col justify-between mt-6">
+    <h4>Definition du concept</h4>
+    <p><strong>Tw-Dash</strong> est une application reservée uniquement aux administrateurs de <a><strong>Twendeno</strong></a>, Sa mission principale est de créer le réseau routier par departement. </p>
+
+    <h5>Legende</h5>
+    <ul class="w-full flex space-x-1.5 ">
+      <li>
+        <h6><a [routerLink]="['/dashboard','lines']">Line</a></h6>
+        <p>
+          Elle herite de geometrie, une geometrie est un ensemble de coordonnée géographique.
+          Elle peut etre disposé sous forme de polygone, de point , de linestring (suite de point) etc.<br>
+          <span class="text-sm leading-normal text-red-600 font-weight-bolder">Exemple:</span><br>
+          <small>Un arret de bus est une geometrie de type point,</small><br>
+          <small>Une direction Grand marché - Aeroport est une geometrie de type linestring (suite de point).</small>
+
+          Les champs obligatoires pour créer une ligne sont:<br>
+        </p>
+
+        <ul>
+          <li><strong>Name</strong> : le nom de la ligne</li>
+          <li><strong>Departement</strong>: Il s'agit du departement dans lequel la ligne sera crée </li>
+          <li><strong>Town</strong>: Il s'agit de la ville dans laquelle la ligne sera crée </li>
+          <li><strong>Geometry type</strong>: Il s'agit du type de geometrie qu'heritra la ligne </li>
+        </ul>
+      </li>
+
+      <hr class="h-px my-2 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent" />
+
+      <li>
+        <h6><a [routerLink]="['/dashboard','stations']">Station</a></h6>
+        <p> Elle herite de coordonnée, une station est une coordonnée géographique.<br>
+          Les champs obligatoires pour créer une stations sont:<br>
+        </p>
+        <ul>
+          <li><strong>Name</strong> : le nom de la station</li>
+          <li><strong>Latitude et longitude </strong>: coordonnées géographiques</li>
+        </ul>
+      </li>
+
+      <hr class="h-px my-2 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent" />
+
+      <li>
+        <h6><a [routerLink]="['/dashboard','directions']">Direction</a></h6>
+        <p>
+          Elle permet de lier une ligne à une station.<br>
+          Les champs obligatoires pour créer une direction sont:<br>
+        </p>
+        <ul>
+          <li><strong>Name</strong> : le nom de la direction</li>
+          <li><strong>Departure et Arrival </strong>: determine le debut et fin de ligne (le terminus) </li>
+          <li><strong>geometry</strong> : est l'identifiant de la ligne qui sera lier à la station</li>
+          <li><strong>station</strong> : est l'identifiant de la station qui sera lier à la geometrie</li>
+        </ul>
+      </li>
+
+    </ul>
+
+  </div>
+
+</section>
+<section class="mt-6">
+  <app-footer/>
+</section>
+
+
+
+
+
