@@ -34,6 +34,8 @@ export class DirectionFormComponent implements OnInit{
   protected readonly dataExtras = this.config.data;
 
   directionForm = this.fb.group({
+    departure: ['', [Validators.required]],
+    arrival: ['', [Validators.required]],
     geometry_uuid: ['',[Validators.required]],
     coordinate_uuid: ['', [Validators.required]],
     assignedBy : ['admin', [Validators.required]],
@@ -42,6 +44,8 @@ export class DirectionFormComponent implements OnInit{
   ngOnInit(): void {
     if (this.dataExtras.isEdit) {
       this.directionForm.patchValue({
+        departure: this.dataExtras.dynamicData.departure,
+        arrival: this.dataExtras.dynamicData.arrival,
         geometry_uuid: this.dataExtras.dynamicData.geometry_uuid,
         coordinate_uuid: this.dataExtras.dynamicData.coordinate_uuid,
         assignedBy: this.dataExtras.dynamicData.assignedBy,
@@ -55,6 +59,8 @@ export class DirectionFormComponent implements OnInit{
     }
 
     const direction = {
+      departure: this.directionForm.value.departure!,
+      arrival: this.directionForm.value.arrival!,
       geometry_uuid: this.directionForm.value.geometry_uuid!,
       coordinate_uuid: this.directionForm.value.coordinate_uuid!,
       assignedBy: this.directionForm.value.assignedBy!,

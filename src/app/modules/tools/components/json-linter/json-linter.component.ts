@@ -1,6 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
 import {JsonEditorComponent, JsonEditorOptions, NgJsonEditorModule} from "ang-jsoneditor";
-import {MethodeUtil} from "@app/shared/utils/methode.util";
 
 @Component({
   selector: 'app-json-linter',
@@ -12,16 +11,12 @@ import {MethodeUtil} from "@app/shared/utils/methode.util";
 export class JsonLinterComponent  {
 
   editorOptionsLeft: JsonEditorOptions = new JsonEditorOptions();
-  data = {"message":"hello Twendeno 🫵🫵🫵"}
+  data = {"message":"hello Twendeno 🌍❤️🫵"}
   @ViewChild(JsonEditorComponent, { static: false }) editor!: JsonEditorComponent;
 
   constructor() {
     this.editorOptionsLeft.modes = ['code', 'view','tree','text','form']; // set all allowed modes
     this.editorOptionsLeft.mode = 'code'; //set only one mode
-  }
-
-  getData($event: any) {
-    //this.data = $event;
   }
 
   downloadJsonFile(jsonData: any, fileName: string): void {
@@ -30,7 +25,7 @@ export class JsonLinterComponent  {
 
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
-    link.download = fileName + '.json';
+    link.download = fileName+new Date().toLocaleString() + '.json';
 
     link.click();
   }

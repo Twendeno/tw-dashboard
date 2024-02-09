@@ -2,6 +2,7 @@ import {Component, input} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {Constant} from "@app/shared/utils/constant/constant";
+import {environment} from "@env/environment";
 
 @Component({
   selector: 'app-aside-bar',
@@ -37,5 +38,5 @@ export class AsideBarComponent {
     ]
   );
 
-  apiDocLink = Constant.SERVER_URL+"api-docs";
+  apiDocLink = `${environment.MS_RX_API.URL}api-docs`;
 }

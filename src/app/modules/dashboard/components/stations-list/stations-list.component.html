@@ -46,7 +46,7 @@
                 <select class="flex items-center justify-center text-xs font-semibold leading-tight">
                   @if (stationItem.geometry.length > 0) {
                     @for (geometryItem  of stationItem.geometry;track geometryItem) {
-                      <option value="{{ geometryItem.geometry_uuid }}">{{ geometryItem.geometry_uuid }}</option>
+                      <option value="{{ geometryItem.geometry_uuid }}">{{ geometryItem.geometry_uuid | truncate:10 }}</option>
                     }
                   } @else {
                     <option value="null">line not found</option>

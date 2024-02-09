@@ -1,9 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpEvent} from "@angular/common/http";
-import {Constant} from "@app/shared/utils/constant/constant";
 import {Observable} from "rxjs";
 import {Root} from "@app/models/root";
 import {District} from "@app/models/dashboard/district";
+import {environment} from "@env/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import {District} from "@app/models/dashboard/district";
 export class DistrictService {
 
   private readonly http = inject(HttpClient);
-  private readonly url: string = Constant.BASE_URL + 'districts';
+  private readonly url: string = `${environment.MS_RX_API.URL}${environment.MS_RX_API.VERSION}/`+ 'districts';
 
   allDistricts(): Observable<Root<District[]>> {
     return this.http.get<Root<District[]>>(this.url);

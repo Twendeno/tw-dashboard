@@ -80,10 +80,28 @@ export class GeoCalculComponent {
   constructor(private fb: FormBuilder) { }
 
   onSubmit() {
-    if (this.geoCalculatorForm.controls['departure'].invalid || this.geoCalculatorForm.controls['arrival'].invalid) {
+
+    if (this.geoCalculatorForm.controls['address'].invalid || this.geoCalculatorForm.controls['address'].invalid) {
       return;
     }
-    console.log(this.geoCalculatorForm.value)
+
+    this.geoCalculatorForm.controls['departure'].patchValue(
+      {
+        latitude: this.departureSelected().split(',')[0],
+        longitude: this.departureSelected().split(',')[1]
+      }
+    );
+
+    this.geoCalculatorForm.controls['arrival'].patchValue(
+      {
+        latitude: this.arrivalSelected().split(',')[0],
+        longitude: this.arrivalSelected().split(',')[1]
+      }
+    );
+
+    if (!this.geoCalculatorForm.controls['departure'].value || !this.geoCalculatorForm.controls['arrival'].value) {
+      return;
+    }
     this.pointsList = [this.geoCalculatorForm.controls['departure'].value, this.geoCalculatorForm.controls['arrival'].value];
     this.departureTimeValue.set(this.convertToTimestamp(this.geoCalculatorForm.controls['times'].value.departureTime!))
     this.arrivalTimeValue.set(this.convertToTimestamp(this.geoCalculatorForm.controls['times'].value.arrivalTime!))

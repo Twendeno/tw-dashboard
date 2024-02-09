@@ -1,9 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpEvent} from "@angular/common/http";
-import {Constant} from "@app/shared/utils/constant/constant";
 import {Observable} from "rxjs";
 import {Root} from "@app/models/root";
 import {Department} from "@app/models/dashboard/department";
+import {environment} from "@env/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import {Department} from "@app/models/dashboard/department";
 export class DepartmentService {
 
   private readonly http = inject(HttpClient);
-  private readonly url: string = Constant.BASE_URL + 'departments';
+  private readonly url: string = `${environment.MS_RX_API.URL}${environment.MS_RX_API.VERSION}/`+ 'departments';
 
   allDepartments():Observable<Root<Department[]>>{
     return this.http.get<Root<Department[]>>(this.url);

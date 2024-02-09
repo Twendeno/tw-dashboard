@@ -1,10 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpEvent} from "@angular/common/http";
-import {Constant} from "@app/shared/utils/constant/constant";
 import {Observable} from "rxjs";
 import {Root} from "@app/models/root";
 import {Station} from "@app/models/dashboard/station";
-import {Direction} from "@app/models/dashboard/direction";
+import {environment} from "@env/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ import {Direction} from "@app/models/dashboard/direction";
 export class StationService {
 
   private readonly http = inject(HttpClient);
-  private readonly url: string = Constant.BASE_URL + 'coordinates';
+  private readonly url: string = `${environment.MS_RX_API.URL}${environment.MS_RX_API.VERSION}/`+ 'coordinates';
 
   allCoordinates(): Observable<Root<Station[]>> {
     return this.http.get<Root<Station[]>>(this.url);

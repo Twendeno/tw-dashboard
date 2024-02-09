@@ -30,7 +30,7 @@ export class TownFormComponent implements OnInit{
 
   private readonly fb = inject(FormBuilder);
 
-  private geoJsonFromFile: any = { "message": 'hello Twendeno 🫵🫵🫵' }
+  private geoJsonFromFile: any = { "message": 'hello Twendeno 🌍❤️🫵' }
 
   private config = inject(DynamicDialogConfig);
   private ref = inject(DynamicDialogRef);
@@ -68,8 +68,6 @@ export class TownFormComponent implements OnInit{
     }
 
     this.townForm.value.geodata = JSON.stringify(this.geoJsonFromFile)
-
-    console.log(this.townForm.value)
 
     if (this.dataExtras.isEdit) {
       this.townService

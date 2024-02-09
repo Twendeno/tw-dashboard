@@ -33,7 +33,7 @@ export class GeometryFormComponent implements OnInit{
   private readonly departmentService = inject(DepartmentService);
   private readonly fb = inject(FormBuilder);
 
-  private geoJsonFromFile: any = { "message": 'hello Twendeno 🫵🫵🫵' }
+  private geoJsonFromFile: any = { "message": 'hello Twendeno 🌍❤️🫵' }
 
   private config = inject(DynamicDialogConfig);
   private ref = inject(DynamicDialogRef);

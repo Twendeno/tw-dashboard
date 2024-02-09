@@ -14,6 +14,7 @@ import {MethodeUtil} from "@app/shared/utils/methode.util";
 import {FilterPipe} from "@app/shared/utils/filter/filter.pipe";
 import {SortPipe} from "@app/shared/utils/sort/sort.pipe";
 import {TableDataNotFoundComponent} from "@app/shared/components/table-data-not-found/table-data-not-found.component";
+import {TruncatePipe} from "@app/shared/utils/truncate/truncate.pipe";
 
 @Component({
   selector: 'app-direction-list',
@@ -27,7 +28,8 @@ import {TableDataNotFoundComponent} from "@app/shared/components/table-data-not-
         TableComponent,
         FilterPipe,
         SortPipe,
-        TableDataNotFoundComponent
+        TableDataNotFoundComponent,
+        TruncatePipe
     ],
   templateUrl: './direction-list.component.html',
   styleUrl: './direction-list.component.css'

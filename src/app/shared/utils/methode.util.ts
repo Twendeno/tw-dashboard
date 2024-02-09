@@ -26,7 +26,7 @@ export class MethodeUtil{
     formName: string = "Form"
   ) {
     ref=dialogService.open(component, {
-      header: `Add ${formName}`,
+      header: `${formName}`,
       width: '70%',
       contentStyle: {"max-height": "500px", "overflow": "auto"},
       baseZIndex: 11000,
