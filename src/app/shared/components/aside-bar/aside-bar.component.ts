@@ -19,7 +19,6 @@ export class AsideBarComponent {
 
   personalList = input([
       {name: 'Users', route: 'users',icon: 'assets/img/shapes/users.svg'},
-      {name: 'Profile', route: 'profile',icon: 'assets/img/shapes/profile.svg'},
       {name: 'Tools', route: 'tools',icon: 'assets/img/shapes/tools.svg'},
     ]
   );

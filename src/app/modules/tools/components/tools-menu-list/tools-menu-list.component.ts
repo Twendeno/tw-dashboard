@@ -1,5 +1,5 @@
-import {Component, input} from '@angular/core';
-import {RouterLink} from "@angular/router";
+import {Component, inject, input} from '@angular/core';
+import {Router, RouterLink} from "@angular/router";
 import {NgOptimizedImage} from "@angular/common";
 
 @Component({
@@ -13,6 +13,7 @@ import {NgOptimizedImage} from "@angular/common";
   styleUrl: './tools-menu-list.component.css'
 })
 export class ToolsMenuListComponent {
+  private readonly router = inject(Router)
   //#rocket-white.png
   toolsList = input([
       {
@@ -29,4 +30,8 @@ export class ToolsMenuListComponent {
       },
     ]
   )
+
+  onClickGoTo(route: any) {
+    this.router.navigate(['/dashboard','tools',route])
+  }
 }

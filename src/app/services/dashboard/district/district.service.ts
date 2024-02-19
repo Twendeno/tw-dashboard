@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {Root} from "@app/models/root";
 import {District} from "@app/models/dashboard/district";
 import {environment} from "@env/environment";
+import {Direction} from "@app/models/dashboard/direction";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class DistrictService {
     return this.http.get<Root<District[]>>(this.url);
   }
 
-  districts(page: number, perPage: number): Observable<Root<District[]>> {
+  districts(page: number=1, perPage: number=10): Observable<Root<District[]>> {
     return this.http.get<Root<District[]>>(this.url + '?page=' + page + '&perPage=' + perPage);
   }
 
@@ -31,5 +32,8 @@ export class DistrictService {
 
   delete(uuid: string): Observable<HttpEvent<Root<District>>> {
     return this.http.delete<Root<District>>(this.url + '/' + uuid,{reportProgress: true, observe: 'events'});
+  }
+  deleteMany(data:District[]): Observable<HttpEvent<Root<District>>> {
+    return this.http.delete<Root<District>>(this.url+'/deletes/districts', {body: data,reportProgress: true, observe: 'events', responseType: 'json'});
   }
 }

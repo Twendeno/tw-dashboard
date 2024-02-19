@@ -28,4 +28,10 @@ export class DirectionService {
   delete(uuid:string): Observable<HttpEvent<Root<Direction>>> {
     return this.http.delete<Root<Direction>>(this.url+'/'+uuid, {reportProgress: true, observe: 'events', responseType: 'json'});
   }
+
+  deleteMany(data:Direction[]): Observable<HttpEvent<Root<Direction>>> {
+    return this.http.delete<Root<Direction>>(this.url+'/deletes/coordinates-geometries', {body: data,reportProgress: true, observe: 'events', responseType: 'json'});
+  }
+
+
 }

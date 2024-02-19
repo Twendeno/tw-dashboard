@@ -30,4 +30,7 @@ export class GeometryService {
   delete(uuid:string): Observable<HttpEvent<Root<Geometry>>> {
     return this.http.delete<Root<Geometry>>(this.url+'/'+uuid, {reportProgress: true, observe: 'events'});
   }
+  deleteMany(data:Geometry[]): Observable<HttpEvent<Root<Geometry>>> {
+    return this.http.delete<Root<Geometry>>(this.url+'/deletes/geometries', {body: data,reportProgress: true, observe: 'events', responseType: 'json'});
+  }
 }

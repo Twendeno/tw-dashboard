@@ -1,4 +1,4 @@
-import {Component, inject, input, OnInit} from '@angular/core';
+import {Component, inject, input, OnInit, signal} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpEventType} from "@angular/common/http";
 import {GeometryService} from "@app/services/dashboard/geometry/geometry.service";
@@ -40,6 +40,7 @@ export class GeometryFormComponent implements OnInit{
 
   towns$ = this.townService.allTowns();
   departments$ = this.departmentService.allDepartments();
+  latLngUuids = signal<string[]>([])
 
   protected readonly geometryTypes = input([
       GeometryType.POINT, GeometryType.LINESTRING, GeometryType.POLYGON,
@@ -80,6 +81,7 @@ export class GeometryFormComponent implements OnInit{
 
     this.geometryForm.value.geodata = JSON.stringify(this.geoJsonFromFile)
 
+
     if (this.dataExtras.isEdit) {
       this.geometryService
         .update(this.dataExtras.dynamicData.uuid, this.geometryForm.value)
@@ -90,7 +92,7 @@ export class GeometryFormComponent implements OnInit{
               break;
             case HttpEventType.Response:
               this.geometryForm.reset();
-              this.ref.close(DialogResponse.UPDATE);
+              this.createCoordinateFromFile(event.body!.data.name,event.body!.data.uuid);
               break;
             case HttpEventType.ResponseHeader:
               console.log(event);
@@ -102,16 +104,24 @@ export class GeometryFormComponent implements OnInit{
 
     this.geometryService
       .create( this.geometryForm.value)
-      .subscribe((event: any) => {
+      .subscribe((event) => {
         switch (event.type) {
           case HttpEventType.UploadProgress:
             console.log('Uploaded ' + event.loaded + ' out of ' + event.total + ' bytes');
+            const percentDone = event.total ? Math.round(100 * event.loaded / event.total) : 0;
+            console.log("%",percentDone)
             break;
           case HttpEventType.Response:
             this.geometryForm.reset();
-            this.createCoordinateFromFile(event.body.data.name,event.body.data.uuid);
-            // this.ref.close(DialogResponse.CREATE);
+            this.createCoordinateFromFile(event.body!.data.name,event.body!.data.uuid);
             break;
+          case HttpEventType.DownloadProgress:
+            const percentDones = event.total ? Math.round(100 * event.loaded / event.total) : 0;
+            console.log("down",percentDones)
+            break
+          case HttpEventType.Sent:
+            console.log("sent",event)
+            break
         }
       });
   }
@@ -121,37 +131,32 @@ export class GeometryFormComponent implements OnInit{
     if (!Object.keys(this.geoJsonFromFile).includes('coordinates')) this.ref.close(DialogResponse.CREATE);
 
     if (Object.keys(this.geoJsonFromFile).includes('coordinates')){
-      this.stationService.createMany(this.geoJsonFromFile.coordinates).subscribe((event) => {
+      const data = {
+        coordinates: this.geoJsonFromFile.coordinates,
+        assignedBy: 'admin',
+        geometry_uuid
+      }
+      this.stationService.createMany(data).subscribe((event) => {
         switch (event.type) {
-          case HttpEventType.UploadProgress:
-            console.log('Uploaded ' + event.loaded + ' out of ' + event.total + ' bytes');
-            break;
+          case HttpEventType.DownloadProgress:
+            console.log('DownloadProgress ' + event.loaded + ' out of ' + event.total + ' bytes');
+            const percentDones = event.total ? Math.round(100 * event.loaded / event.total) : 0;
+            console.log(percentDones+"%")
+            break
+
+          case HttpEventType.Sent:
+            console.log("sent",event)
+            break
           case HttpEventType.Response:
-            this.linkedGeometryToCoordinate(geometry_uuid);
+            if (event.status == 201){
+              if (this.dataExtras.isEdit)
+                this.ref.close(DialogResponse.UPDATE)
+              else
+                this.ref.close(DialogResponse.CREATE);
+            }
             break;
         }
       })
-    }
-  }
-
-  linkedGeometryToCoordinate(geometry_uuid:string){
-    for (const  [longitude, latitude] of this.geoJsonFromFile.coordinates ) {
-      let latLng = [latitude, longitude].toString();
-
-      this.stationService.findOneByLatLng(latLng).subscribe((res) => {
-
-        const direction = {
-          geometry_uuid,
-          coordinate_uuid: res.data.uuid,
-          assignedBy: 'admin',
-        };
-
-        this.directionService.create(direction).subscribe((event) => {
-          this.ref.close(DialogResponse.CREATE);
-        });
-
-      });
-
     }
   }
 

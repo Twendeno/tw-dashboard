@@ -6,8 +6,8 @@ import {ToolsMenuListComponent} from "@app/modules/tools/components/tools-menu-l
 
 const routes: Routes = [
   {path:'',component: ToolsMenuListComponent},
-  {path:'json-editor',component:JsonLinterComponent},
-  {path:'geo-calculator',component:GeoCalculComponent},
+  {path:'json-editor',title:'Json-editor',component:JsonLinterComponent},
+  {path:'geo-calculator',title:'Geo-calculator',component:GeoCalculComponent},
   {path:'**',component: ToolsMenuListComponent}
 ];
 

@@ -1,0 +1,56 @@
+<nav class="w-full">
+  <ul [class]="small ? 'pagination pagination-sm' : 'pagination'" class="flex justify-center items-center">
+    <!-- first button -->
+    @if (firstLastButtons) {
+      <li (click)="selectPageNumber(1)" [class]="currentPage === 1 ? 'cursor-no-drop' : 'cursor-pointer text-blue-500'">
+        <i class="pi pi-angle-double-left"></i>
+      </li>
+    }
+    <!-- previous button -->
+
+    @if (nextPreviousButtons) {
+      <li (click)="previous()" [class]="currentPage === 1 ?'cursor-no-drop' : 'cursor-pointer text-blue-500'">
+        <i class="pi pi-chevron-left" ></i>
+      </li>
+    }
+
+    <!-- page numbers -->
+    @if(totalPages.length<=0){
+      <li
+        (click)="selectPageNumber(1)"
+        class="px-1.5 py-1 border  text-xs mx-0.5"
+        [class]="currentPage === 1 ? ' bg-gradient-to-tl from-blue-400 to-cyan-300' : 'hover:bg-gray-300'">
+        <a class="cursor-pointer">{{ 1 }}</a>
+      </li>
+    } @else {
+      @for (p of totalPages;track p;let i=$index) {
+        <ng-container>
+          @if (i + 1 >= currentPage - maxSize && i + 1 <= currentPage + maxSize) {
+            <li
+              (click)="selectPageNumber(i+1)"
+              class="px-1.5 py-0.5 border  text-xs mx-0.5"
+              [class]="currentPage === i + 1 ? ' bg-gradient-to-tl from-blue-400 to-cyan-300' : 'hover:bg-gray-300'">
+              <a class="cursor-pointer" >{{ i + 1 }}</a>
+            </li>
+          }
+        </ng-container>
+      }
+    }
+
+
+    <!-- next button -->
+    @if (nextPreviousButtons) {
+
+      <li (click)="next()" [class]="currentPage === totalPages.length ? 'cursor-no-drop' : 'cursor-pointer text-blue-500'">
+        <i class="pi pi-chevron-right" ></i>
+      </li>
+    }
+    <!-- last button -->
+    @if (firstLastButtons) {
+      <li (click)="selectPageNumber(totalPages.length)" [class]="currentPage === totalPages.length ? 'cursor-no-drop' : 'cursor-pointer text-blue-500'">
+        <i class="pi pi-angle-double-right" ></i>
+      </li>
+    }
+
+  </ul>
+</nav>

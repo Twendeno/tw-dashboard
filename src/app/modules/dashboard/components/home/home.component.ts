@@ -24,7 +24,7 @@ import {FooterComponent} from "@app/shared/components/footer/footer.component";
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  protected readonly town$ = inject(TownService).allTowns();
-  protected readonly district$ = inject(DistrictService).allDistricts();
-  protected readonly line$ = inject(GeometryService).allGeometries();
+  protected readonly town$ = inject(TownService).towns();
+  protected readonly district$ = inject(DistrictService).districts();
+  protected readonly line$ = inject(GeometryService).geometries();
 }
