@@ -5,13 +5,26 @@
       <div class="flex justify-between items-center">
 
         <h6>{{ tableName }} table</h6>
-        <div class="text-center">
-          <button type="button" (click)="onShowDialog()"
-                  class="flex space-x-1 w-full px-6 py-3 mt-6 mb-0 font-bold text-center  text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer shadow-soft-md bg-x-25 bg-150 leading-pro text-xs ease-soft-in tracking-tight-soft bg-gradient-to-tl from-blue-600 to-cyan-400 hover:scale-102 hover:shadow-soft-xs active:opacity-85">
-            <i class="pi pi-plus-circle"></i>
-            <span>Add new {{ tableName }}</span>
-          </button>
+
+        <div class="flex flex-row space-x-1">
+          <div class="text-center">
+            <button type="button" (click)="onShowDialog()"
+                    class="flex space-x-1 w-full px-6 py-3 mt-6 mb-0 font-bold text-center  text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer shadow-soft-md bg-x-25 bg-150 leading-pro text-xs ease-soft-in tracking-tight-soft bg-gradient-to-tl from-blue-600 to-cyan-400 hover:scale-102 hover:shadow-soft-xs active:opacity-85">
+              <i class="pi pi-plus-circle"></i>
+              <span>Add new {{ tableName }}</span>
+            </button>
+          </div>
+          @if (nbItemToDelete>0){
+            <div class="text-center">
+              <button type="button" (click)="onMultipleDelete()"
+                      class="flex space-x-1 w-full px-6 py-3 mt-6 mb-0 font-bold text-center  text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer shadow-soft-md bg-x-25 bg-150 leading-pro text-xs ease-soft-in tracking-tight-soft bg-gradient-to-tl from-red-900 to-red-400 hover:scale-102 hover:shadow-soft-xs active:opacity-85">
+                <i class="pi pi-trash"></i>
+                <span>Remove</span>
+              </button>
+            </div>
+          }
         </div>
+
       </div>
 
     </div>
@@ -21,7 +34,7 @@
         <div class="items-center justify-between px-4 py-2 w-full flex mb-0 align-top border-gray-200 text-slate-500">
           <div class=" space-x-2 items-center">
             <select (change)="onChangeEntryPerPage($event)">
-              @for(perPageItem of [5,10,15,20,15,30];track perPageItem){
+              @for(perPageItem of [10,25,50];track perPageItem){
                 <option value="{{perPageItem}}" [selected]="perPageItem==perPage() ">{{perPageItem}}</option>
               }
             </select>
@@ -38,9 +51,12 @@
         <table class="items-center justify-center w-full mb-0 align-top border-gray-200 text-slate-500">
           <thead class="align-bottom">
           <tr>
+            <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+              <input type="checkbox" class="form-checkbox h-4 w-4 text-indigo-600" (change)="onSelectAll($event)">
+            </th>
             @for (column of headers;track column) {
               <th
-                class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                 <span class="flex items-center justify-center text-center align-middle">
                   {{ column.field }}
                   @if (column.isFilter){
@@ -59,7 +75,7 @@
                 </span>
               </th>
             }
-            <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Actions</th>
+            <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Actions</th>
           </tr>
           </thead>
 
@@ -70,35 +86,18 @@
             <tfoot>
             <tr>
               @if (myService!.meta!; as myServiceMeta){
-                <td colspan="8" class="px-6 py-3 text-xs font-semibold leading-normal text-right bg-transparent border-t border-gray-200 shadow-none whitespace-nowrap">
+                <td colspan="12" class="px-6 py-3 text-xs font-semibold leading-normal text-right bg-transparent border-t border-gray-200 shadow-none whitespace-nowrap">
                   <div class="w-full flex flex-row justify-between px-2 ">
                     <div class="">Showing {{ myServiceMeta.currentPage! }} to {{ myServiceMeta.perPage! }} of {{ myServiceMeta.total! }} entries</div>
                     <div class="flex items-center">
-
-                      @if (myServiceMeta.prev && pageSelected()>=1; as myServiceMetaPrevPage) {
-                        <a class="cursor-pointer text-xs font-semibold leading-normal text-right bg-transparent border-t border-gray-200 shadow-none whitespace-nowrap" (click)="onPreviousPage()" >PREVIOUS</a>
-                      } @else {
-                        <a class="cursor-no-drop">PREVIOUS</a>
-                      }
-
-                      <div class="flex space-x-2 px-2 mx-4 items-center">
-                        @if (myServiceMeta.lastPage; as geometryMetaLastPage) {
-                          @for (page of Array(geometryMetaLastPage);track page; let idx = $index) {
-                            @if ( myServiceMeta.currentPage == idx+1){
-                              <a class="cursor-pointer border rounded-full bg-gradient-to-tl from-blue-400 to-cyan-300 px-2.5 py-1" (click)="onPagination(idx+1)" >{{ idx+1 }}</a>
-                            } @else {
-                              <a class="cursor-pointer border rounded-full hover:bg-gray-300 px-2.5  py-1" (click)="onPagination(idx+1)">{{ idx+1 }}</a>
-                            }
-                          }
-                        }
-                      </div>
-
-                      @if (myServiceMeta.next && pageSelected()<myServiceMeta.lastPage; as myServiceMetaNextPage) {
-                        <a class="cursor-pointer text-xs font-semibold leading-normal text-right bg-transparent border-t border-gray-200 shadow-none whitespace-nowrap" (click)="onNextPage()">NEXT</a>
-                      } @else {
-                        <a class="cursor-no-drop">NEXT</a>
-                      }
-
+                      <app-pagination
+                        [collectionSize]="myServiceMeta.total!"
+                        [pageSize]="10"
+                        [firstLastButtons]="true"
+                        [maxSize]="2"
+                        [currentPage]="pageSelected()"
+                        (pageChange)="onPagination($event)"
+                      />
                     </div>
                   </div>
                 </td>
@@ -107,7 +106,7 @@
             </tfoot>
           } @else {
             <tbody>
-            <app-table-data-not-found/>
+            <app-table-data-not-found [nbColumns]="headers.length"/>
             </tbody>
           }
         </table>

@@ -14,28 +14,28 @@ import {PrivacyPolicyComponent} from "@app/shared/components/privacy-policy/priv
 import {AboutUsComponent} from "@app/shared/components/about-us/about-us.component";
 
 const routes: Routes = [
-  {path: 'home', component: HomeComponent},
-  {path: 'users', component: UserListComponent},
+  {path: 'home', component: HomeComponent,title:'Home'},
+  {path: 'users', component: UserListComponent,title:'Users'},
   {
-    path: 'profile', component: ProfileComponent,
+    path: 'profile', component: ProfileComponent,title:'Profile',
     children: [
       {path: '', loadChildren: () => import('@app/modules/profile/profile.module').then(m => m.ProfileModule)}
     ]
   },
-  {path: 'departments', component: DepartmentListComponent},
-  {path: 'towns', component: TownListComponent},
-  {path: 'districts', component: DistrictListComponent},
-  {path: 'lines', component: LineListComponent},
-  {path: 'stations', component: StationsListComponent},
-  {path: 'directions', component: DirectionListComponent},
+  {path: 'departments',title:'Departments', component: DepartmentListComponent},
+  {path: 'towns',title:'Towns', component: TownListComponent},
+  {path: 'districts',title:'Districts', component: DistrictListComponent},
+  {path: 'lines', title:'Lines',component: LineListComponent},
+  {path: 'stations', title:'Stations',component: StationsListComponent},
+  {path: 'directions', title:'Directions',component: DirectionListComponent},
   {
-    path: 'tools', component: ToolsComponent,
+    path: 'tools', title:'Tools',component: ToolsComponent,
     children: [
       {path: '', loadChildren: () => import('@app/modules/tools/tools.module').then(m => m.ToolsModule)}
     ]
   },
-  {path: 'privacy-policy', component: PrivacyPolicyComponent},
-  {path: 'about-us', component: AboutUsComponent},
+  {path: 'privacy-policy', title:'Privacy-policy',component: PrivacyPolicyComponent},
+  {path: 'about-us', title:'About us',component: AboutUsComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: HomeComponent},
 ];

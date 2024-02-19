@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {Root} from "@app/models/root";
 import {Town} from "@app/models/dashboard/town";
 import {environment} from "@env/environment";
+import {Direction} from "@app/models/dashboard/direction";
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,9 @@ export class TownService {
 
   delete(uuid:string): Observable<HttpEvent<Root<Town>>> {
     return this.http.delete<Root<Town>>(this.url+'/'+uuid, {reportProgress: true, observe: 'events'});
+  }
+  deleteMany(data:Town[]): Observable<HttpEvent<Root<Town>>> {
+    return this.http.delete<Root<Town>>(this.url+'/deletes/towns', {body: data,reportProgress: true, observe: 'events', responseType: 'json'});
   }
 
 }

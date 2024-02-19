@@ -7,19 +7,27 @@ import {MessageService} from "primeng/api";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {MethodeUtil} from "@app/shared/utils/methode.util";
 import {TableDataNotFoundComponent} from "@app/shared/components/table-data-not-found/table-data-not-found.component";
+import {TableModule} from "primeng/table";
+import {ButtonModule} from "primeng/button";
+import {InputTextModule} from "primeng/inputtext";
+import {PaginationComponent} from "@app/shared/components/pagination/pagination.component";
 
 @Component({
   selector: 'app-table',
   standalone: true,
-    imports: [
-        AsyncPipe,
-        FilterPipe,
-        FormsModule,
-        SortPipe,
-        NgStyle,
-        JsonPipe,
-        TableDataNotFoundComponent
-    ],
+  imports: [
+    AsyncPipe,
+    FilterPipe,
+    FormsModule,
+    SortPipe,
+    NgStyle,
+    JsonPipe,
+    TableDataNotFoundComponent,
+    TableModule,
+    ButtonModule,
+    InputTextModule,
+    PaginationComponent
+  ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'
 })
@@ -32,7 +40,7 @@ export class TableComponent {
   private ref: DynamicDialogRef | undefined;
 
   @Input() pageSelected = signal(1);
-  @Input() perPage = signal(5);
+  @Input() perPage = signal(10);
   @Input() dynamicComponent: any;
 
   @Input() sortColumnSelected = {field: 'name', isFilter: true, order: 'asc'}
@@ -40,12 +48,15 @@ export class TableComponent {
   @Input() tableName: string = "Table name";
   @Input() myService$: any;
   @Input() headers: any;
+  @Input() nbItemToDelete: any;
 
   @Output() perPageOutput = new EventEmitter<number>();
   @Output() pageSelectedOutput = new EventEmitter<number>();
   @Output() searchValueOutput = new EventEmitter<string>();
   @Output() sortValueOutput = new EventEmitter<any>();
   @Output() reloadTableData = new EventEmitter<any>();
+  @Output() selectAllData = new EventEmitter<any>();
+  @Output() multipleDeleteData = new EventEmitter<any>();
 
   onSearchValueChange(searchValue: string) {
     this.searchValueOutput.emit(searchValue);
@@ -58,16 +69,6 @@ export class TableComponent {
 
   onPagination(page: number) {
     this.pageSelected.set(page);
-    this.pageSelectedOutput.emit(this.pageSelected());
-  }
-
-  onNextPage() {
-    this.pageSelected.set(this.pageSelected() + 1);
-    this.pageSelectedOutput.emit(this.pageSelected());
-  }
-
-  onPreviousPage() {
-    this.pageSelected.set(this.pageSelected() > 1 ? this.pageSelected() - 1 : 1);
     this.pageSelectedOutput.emit(this.pageSelected());
   }
 
@@ -98,4 +99,17 @@ export class TableComponent {
     }
   }
 
+  onSelectAll($event: any) {
+    if ($event.target.checked){}
+      this.selectAllData.emit(this.myService$.data);
+
+    if (!$event.target.checked)
+      this.selectAllData.emit(null);
+
+
+  }
+
+  onMultipleDelete() {
+    this.multipleDeleteData.emit(true)
+  }
 }

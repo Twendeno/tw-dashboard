@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-table-data-not-found',
@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './table-data-not-found.component.css'
 })
 export class TableDataNotFoundComponent {
-
+@Input() nbColumns: number = 8;
 }

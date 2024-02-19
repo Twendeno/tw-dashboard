@@ -13,6 +13,9 @@
       (perPageOutput)="onChangeEntryPerPage($event)"
       (sortValueOutput)="onSortChanged($event)"
       (reloadTableData)="onReloadTableData($event)"
+      (selectAllData)="onSelectAllData($event)"
+      (multipleDeleteData)="onMultipleDeleteData($event)"
+      [nbItemToDelete]="removeList().length"
       [perPage]="perPage"
       [pageSelected]="pageSelected"
       [searchValue]="searchValue"
@@ -26,6 +29,9 @@
       @if (directions.data; as directionData){
         @for (directionItem of directionData| filter: searchValue : ['name','type','reference'] ;track directionItem.uuid) {
           <tr>
+            <td class=" text-center p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+              <input type="checkbox" [ngModel]="isCheckOne()" (change)="onCheckOneItem(directionItem,$event)">
+            </td>
             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
               <div class="flex items-center justify-center px-2">
                 <div class="my-auto">
@@ -41,19 +47,7 @@
             </td>
             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                     <span
-                      class="flex items-center justify-center text-xs font-semibold leading-tight"> {{ directionItem.geometry._count.coordinates }} </span>
-            </td>
-            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-              <select class="flex items-center justify-center text-xs font-semibold leading-tight">
-                @if (directionItem.geometry.coordinates.length > 0) {
-                  @for (coordinateItem  of directionItem.geometry.coordinates;track coordinateItem) {
-                    <option value="{{ coordinateItem.coordinate_uuid }}"> {{ coordinateItem.coordinate_uuid | truncate:10}}
-                    </option>
-                  }
-                } @else {
-                  <option value="null">station not found</option>
-                }
-              </select>
+                      class="flex items-center justify-center text-xs font-semibold leading-tight"> {{ directionItem.geometry.name }} </span>
             </td>
             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
               <div class="flex space-x-1.5 items-center justify-center">

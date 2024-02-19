@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {Root} from "@app/models/root";
 import {Station} from "@app/models/dashboard/station";
 import {environment} from "@env/environment";
+import {Direction} from "@app/models/dashboard/direction";
 
 @Injectable({
   providedIn: 'root'
@@ -36,11 +37,14 @@ export class StationService {
     return this.http.delete<Root<Station>>(this.url+'/'+uuid, {reportProgress: true, observe: 'events'});
   }
 
-  createMany(coordinates: number[][]): Observable<HttpEvent<any>> {
-    return this.http.post<Root<Station[]>>(this.url+'/many', coordinates, {reportProgress: true, observe: 'events'});
+  createMany(data:any): Observable<HttpEvent<any>> {
+    return this.http.post<Root<Station[]>>(this.url+'/many', data, {reportProgress: true, observe: 'events'});
   }
 
   findOneByLatLng(latLng: string): Observable<Root<Station>> {
     return this.http.get<Root<Station>>(this.url + '/latlng/' + latLng);
+  }
+  deleteMany(data:Station[]): Observable<HttpEvent<Root<Station>>> {
+    return this.http.delete<Root<Station>>(this.url+'/deletes/coordinates', {body: data,reportProgress: true, observe: 'events', responseType: 'json'});
   }
 }
