@@ -17,6 +17,7 @@ import {TableDataNotFoundComponent} from "@app/shared/components/table-data-not-
 import {TruncatePipe} from "@app/shared/utils/truncate/truncate.pipe";
 import {DialogResponse} from "@app/models/dialog-response";
 import {ReplaySubject, takeUntil} from "rxjs";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-line-list',
@@ -34,7 +35,8 @@ import {ReplaySubject, takeUntil} from "rxjs";
     TableComponent,
     TableDataNotFoundComponent,
     DatePipe,
-    TruncatePipe
+    TruncatePipe,
+    RouterLink
   ],
   templateUrl: './line-list.component.html',
   styleUrl: './line-list.component.css'

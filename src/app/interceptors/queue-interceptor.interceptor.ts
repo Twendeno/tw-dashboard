@@ -28,8 +28,6 @@ export const queueInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
     responseBehvaiorSubjectObject = {};
 
 
-  // console.log("PENDING REQUESTS", this.pendingRequests, this.pendingRequestsQueue)
-
   // Increment the pending request count
   pendingRequestCount++;
   // Push the request into the array of pending requests
@@ -74,7 +72,7 @@ const processNextRequest = (request:HttpRequest<any>, next: HttpHandlerFn, reqID
   );
 }
 
-// Function to Send Checks Queu and Send REQUEST FROM Queue
+// Function to Send Checks Queue and Send REQUEST FROM Queue
 const sendRequestFromQueue = (next: HttpHandlerFn) => {
   // If request is successful, decrement the pending request count
   pendingRequestCount--;

@@ -27,6 +27,8 @@ export class StationFormComponent implements OnInit {
     latitude: ['', [Validators.required]],
     longitude: ['', [Validators.required]],
     isStop: [false],
+    isDeparture: [false],
+    isArrival: [false],
     name: ['', [Validators.required]],
     address: ['', [Validators.required]],
   });
@@ -37,6 +39,8 @@ export class StationFormComponent implements OnInit {
         latitude: this.dataExtras.dynamicData.latitude,
         longitude: this.dataExtras.dynamicData.longitude,
         isStop: this.dataExtras.dynamicData.isStop,
+        isDeparture: this.dataExtras.dynamicData.isDeparture,
+        isArrival: this.dataExtras.dynamicData.isArrival,
         name: this.dataExtras.dynamicData.name,
         address: this.dataExtras.dynamicData.address,
       });
@@ -50,6 +54,8 @@ export class StationFormComponent implements OnInit {
       latitude: Number(this.stationForm.value.latitude!),
       longitude: Number(this.stationForm.value.longitude!),
       isStop: this.stationForm.value.isStop!,
+      isDeparture: this.stationForm.value.isDeparture!,
+      isArrival: this.stationForm.value.isArrival!,
       name: this.stationForm.value.name!,
       address: this.stationForm.value.address!,
     };
@@ -57,9 +63,6 @@ export class StationFormComponent implements OnInit {
     if (this.config.data.isEdit) {
       this.stationService.update(this.dataExtras.dynamicData.uuid, station).subscribe((event: any) => {
         switch (event.type) {
-          case HttpEventType.UploadProgress:
-            console.log('Uploaded ' + event.loaded + ' out of ' + event.total + ' bytes');
-            break;
           case HttpEventType.Response:
             this.stationForm.reset();
             this.ref.close(DialogResponse.UPDATE);
@@ -71,9 +74,6 @@ export class StationFormComponent implements OnInit {
 
     this.stationService.create(station).subscribe((event: any) => {
       switch (event.type) {
-        case HttpEventType.UploadProgress:
-          console.log('Uploaded ' + event.loaded + ' out of ' + event.total + ' bytes');
-          break;
         case HttpEventType.Response:
           this.stationForm.reset();
           this.ref.close(DialogResponse.CREATE);

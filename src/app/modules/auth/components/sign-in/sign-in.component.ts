@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-sign-in',
@@ -8,5 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './sign-in.component.css'
 })
 export class SignInComponent {
-
+  constructor() {
+    inject(Title).setTitle('Sign In');
+  }
 }

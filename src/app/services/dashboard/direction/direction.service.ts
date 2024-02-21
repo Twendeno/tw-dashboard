@@ -33,5 +33,9 @@ export class DirectionService {
     return this.http.delete<Root<Direction>>(this.url+'/deletes/coordinates-geometries', {body: data,reportProgress: true, observe: 'events', responseType: 'json'});
   }
 
+  direction(uuid:string): Observable<HttpEvent<Root<Direction>>> {
+    return this.http.get<Root<Direction>>(this.url+'/'+uuid, {reportProgress: true, observe: 'events', responseType: 'json'});
+  }
+
 
 }
