@@ -14,4 +14,6 @@ export interface Direction {
   arrival: string
   reference: string
   isOnline: boolean
+  arrival_coordinate_uuid: string
+  departure_coordinate_uuid: string
 }

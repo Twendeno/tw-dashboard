@@ -18,6 +18,7 @@ import {TruncatePipe} from "@app/shared/utils/truncate/truncate.pipe";
 import {Direction} from "@app/models/dashboard/direction";
 import {DialogResponse} from "@app/models/dialog-response";
 import {ReplaySubject, takeUntil} from "rxjs";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-direction-list',
@@ -33,7 +34,8 @@ import {ReplaySubject, takeUntil} from "rxjs";
     SortPipe,
     TableDataNotFoundComponent,
     TruncatePipe,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './direction-list.component.html',
   styleUrl: './direction-list.component.css'

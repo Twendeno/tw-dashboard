@@ -10,10 +10,10 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((error) => {
       if ([401, 403].includes(error.status)) {
-        console.log('Unauthorized or forbidden')
+        messageService.add({severity:'error', summary: 'Error', detail: "Unauthorized or forbidden"})
       }
 
-      const errorMessage = error.error.message || error.statusText;
+      const errorMessage = error.error.message || error.statusText || error.status;
 
       messageService.add({severity:'error', summary: 'Error', detail: errorMessage});
 

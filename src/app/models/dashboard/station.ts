@@ -14,4 +14,6 @@ export interface Station {
   geometry: Geometry[]
   _count: Count
   coordinate_uuid: string
+  isDeparture: boolean
+  isArrival: boolean
 }

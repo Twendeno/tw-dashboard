@@ -43,7 +43,7 @@
               <p class="flex items-center justify-center mb-0 text-sm font-semibold leading-normal">{{ directionItem.geometry.type }}</p>
             </td>
             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-              <span class="flex items-center justify-center text-xs font-semibold leading-tight">{{ directionItem.reference }}</span>
+              <span class="flex items-center justify-center text-xs font-semibold leading-tight">{{ directionItem.geometry.reference }}</span>
             </td>
             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                     <span
@@ -53,7 +53,7 @@
               <div class="flex space-x-1.5 items-center justify-center">
                 <a (click)="onShowDialog(directionItem)" class="cursor-pointer text-xs font-semibold leading-tight text-slate-400"> <i class="pi pi-file-edit"></i> </a>
                 <a (click)="onConfirmDelete(directionItem.uuid)" class=" cursor-pointer text-xs font-semibold leading-tight text-slate-400"> <i class="pi pi-trash"></i> </a>
-                <a  class="cursor-pointer text-xs font-semibold leading-tight text-slate-400">
+                <a [routerLink]="['/dashboard','detail-line',directionItem.uuid]" class="cursor-pointer text-xs font-semibold leading-tight text-slate-400">
                   <i class="pi pi-eye"></i>
                 </a>
               </div>

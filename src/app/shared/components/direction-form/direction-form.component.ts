@@ -38,6 +38,8 @@ export class DirectionFormComponent implements OnInit{
     arrival: ['', [Validators.required]],
     geometry_uuid: ['',[Validators.required]],
     coordinate_uuid: ['', [Validators.required]],
+    arrival_coordinate_uuid: [''],
+    departure_coordinate_uuid: [''],
     assignedBy : ['admin', [Validators.required]],
   });
 
@@ -48,6 +50,8 @@ export class DirectionFormComponent implements OnInit{
         arrival: this.dataExtras.dynamicData.arrival,
         geometry_uuid: this.dataExtras.dynamicData.geometry_uuid,
         coordinate_uuid: this.dataExtras.dynamicData.coordinate_uuid,
+        arrival_coordinate_uuid: this.dataExtras.dynamicData.arrival_coordinate_uuid,
+        departure_coordinate_uuid: this.dataExtras.dynamicData.departure_coordinate_uuid,
         assignedBy: this.dataExtras.dynamicData.assignedBy,
       });
     }
@@ -63,15 +67,13 @@ export class DirectionFormComponent implements OnInit{
       arrival: this.directionForm.value.arrival!,
       geometry_uuid: this.directionForm.value.geometry_uuid!,
       coordinate_uuid: this.directionForm.value.coordinate_uuid!,
+      arrival_coordinate_uuid: this.directionForm.value.arrival_coordinate_uuid!,
+      departure_coordinate_uuid: this.directionForm.value.departure_coordinate_uuid!,
       assignedBy: this.directionForm.value.assignedBy!,
     };
-
     if (this.dataExtras.isEdit) {
       this.directionService.update(this.dataExtras.dynamicData.uuid, direction).subscribe((event: any) => {
         switch (event.type) {
-          case HttpEventType.UploadProgress:
-            console.log('Uploaded ' + event.loaded + ' out of ' + event.total + ' bytes');
-            break;
           case HttpEventType.Response:
             this.directionForm.reset();
             this.ref.close(DialogResponse.UPDATE);
@@ -82,11 +84,7 @@ export class DirectionFormComponent implements OnInit{
     }
 
     this.directionService.create(direction).subscribe((event: any) => {
-
       switch (event.type) {
-        case HttpEventType.UploadProgress:
-          console.log('Uploaded ' + event.loaded + ' out of ' + event.total + ' bytes');
-          break;
         case HttpEventType.Response:
           this.directionForm.reset();
           this.ref.close(DialogResponse.CREATE);

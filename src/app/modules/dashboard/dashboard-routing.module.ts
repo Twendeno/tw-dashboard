@@ -12,6 +12,7 @@ import {DirectionListComponent} from "@app/modules/dashboard/components/directio
 import {ToolsComponent} from "@app/modules/tools/components/tools/tools.component";
 import {PrivacyPolicyComponent} from "@app/shared/components/privacy-policy/privacy-policy.component";
 import {AboutUsComponent} from "@app/shared/components/about-us/about-us.component";
+import {DetailLineComponent} from "@app/modules/dashboard/components/detail-line/detail-line.component";
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent,title:'Home'},
@@ -36,6 +37,7 @@ const routes: Routes = [
   },
   {path: 'privacy-policy', title:'Privacy-policy',component: PrivacyPolicyComponent},
   {path: 'about-us', title:'About us',component: AboutUsComponent},
+  {path: 'detail-line/:uuid', title:'detail-line',component: DetailLineComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: HomeComponent},
 ];
