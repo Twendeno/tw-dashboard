@@ -12,7 +12,8 @@
     </nav>
 
     <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
-      <div class="flex items-center md:ml-auto md:pr-4">
+      <!--Recherche-->
+      <!--<div class="flex items-center md:ml-auto md:pr-4">
         <div class="relative flex flex-wrap items-stretch w-full transition-all rounded-lg ease-soft">
                 <span
                   class="text-sm ease-soft leading-5.6 absolute z-50 -ml-px flex h-full items-center whitespace-nowrap rounded-lg rounded-tr-none rounded-br-none border border-r-0 border-transparent bg-transparent py-2 px-2.5 text-center font-normal text-slate-500 transition-all">
@@ -22,11 +23,11 @@
                  class="pl-8.75 text-sm focus:shadow-soft-primary-outline ease-soft w-1/100 leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none focus:transition-shadow"
                  placeholder="Type here..."/>
         </div>
-      </div>
+      </div>-->
 
-      <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
-        <li class="flex items-center">
-          <a [routerLink]="['profile']"
+      <ul class="flex flex-row justify-end pl-0 mb-0 md:ml-auto list-none md-max:w-full">
+        <li class="flex  items-center">
+          <a (click)="onShowNotification()"
              class="block px-0 py-2 text-sm font-semibold transition-all ease-nav-brand text-slate-500">
             <img ngSrc="assets/img/shapes/profile.svg" width="32" height="32" class="inline-block mr-2" alt="profile"/>
           </a>
@@ -35,3 +36,16 @@
     </div>
   </div>
 </nav>
+
+@if (isVisible){
+  <ng-container>
+    <div class="z-110 mt-4 flex  justify-end mx-6 ">
+      <ul class="rounded-2xl shadow-blur px-4 py-3 ">
+        <li class=""><a [routerLink]="['profile']">Profile</a></li>
+        <li class="border-b border-t"></li>
+        <li><a [routerLink]="['/auth','sign-in']">Logout</a></li>
+      </ul>
+    </div>
+  </ng-container>
+}
+

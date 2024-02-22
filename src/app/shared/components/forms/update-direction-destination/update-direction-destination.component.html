@@ -1,0 +1,43 @@
+<form
+  class="container flex-auto p-6 relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border"
+  [formGroup]="directionForm" (ngSubmit)="onSubmit()">
+  <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Departure</label>
+  <div class="mb-4">
+    <input formControlName="departure" type="text"
+           class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow"
+           placeholder="Departure" aria-label="departure" aria-describedby="departure"/>
+  </div>
+  <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Arrival</label>
+  <div class="mb-4">
+    <input formControlName="arrival" type="text"
+           class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow"
+           placeholder="Arrival" aria-label="arrival" aria-describedby="arrival"/>
+  </div>
+  @if ((stations$()|async)?.data; as stations){
+    <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Departure station</label>
+    <div class="mb-4">
+      <select formControlName="departure_coordinate_uuid"
+              class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
+        @for (stationItem of stations;track stationItem.uuid) {
+          <option value="{{ stationItem.uuid }}"> {{ stationItem.name }}</option>
+        }
+      </select>
+    </div>
+    <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Arrival station</label>
+    <div class="mb-4">
+      <select formControlName="arrival_coordinate_uuid"
+              class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
+        @for (stationItem of stations;track stationItem.uuid) {
+          <option value="{{ stationItem.uuid }}"> {{ stationItem.name }}</option>
+        }
+      </select>
+    </div>
+  }
+  <div class="text-center">
+    <button type="submit"
+            class="inline-block w-full px-6 py-3 mt-6 mb-0 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer shadow-soft-md bg-x-25 bg-150 leading-pro text-xs ease-soft-in tracking-tight-soft bg-gradient-to-tl from-blue-600 to-cyan-400 hover:scale-102 hover:shadow-soft-xs active:opacity-85">
+      <span>Save</span>
+
+    </button>
+  </div>
+</form>

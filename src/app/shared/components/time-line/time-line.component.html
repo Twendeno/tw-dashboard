@@ -1,22 +1,20 @@
-<div class="flex flex-col mb-5">
-  <h4>{{timeLineData!.geometry.name | uppercase}} </h4>
-  <div class="flex space-x-2 items-center">
-    <span> Destination :</span>
-    <strong>{{timeLineData!.departure}}</strong>
-    <i class="pi pi-arrow-right-arrow-left"></i>
-    <strong>{{timeLineData!.arrival}}</strong>
-  </div>
-</div>
 <div class="flex ">
   <div class="border-l-8 ">
     @for (stationItem of stations;track stationItem.uuid;let i = $index){
       <div class="flex mt-4">
         <div class="-ml-4 rounded-full border-2 bg-blue-500  h-6 w-6 flex items-center justify-center">
-          <div class="rounded-full border bg-white  h-3 w-3"></div>
+          @if(stationItem.uuid == timeLineData?.departure_coordinate_uuid){
+            <div class="rounded-full border bg-green-500  h-3 w-3"></div>
+          } @else if (stationItem.uuid == timeLineData?.arrival_coordinate_uuid){
+            <div class="rounded-full border bg-red-500  h-3 w-3"></div>
+          } @else {
+            <div class="rounded-full border bg-white  h-3 w-3"></div>
+          }
         </div>
 
         <div class="pl-2 mb-2">
-          <div class="border px-3 py-2 rounded-lg bg-white  ">
+          <div class="border px-3 py-2 rounded-lg bg-white "
+               [ngClass]="{'border-red-500 border-2':stationItem.uuid == timeLineData?.arrival_coordinate_uuid,'border-green-500 border-2':stationItem.uuid == timeLineData?.departure_coordinate_uuid}">
             <small>{{stationItem.name }} - {{ stationItem.address}}</small>
           </div>
         </div>

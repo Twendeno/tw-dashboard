@@ -37,7 +37,7 @@ const routes: Routes = [
   },
   {path: 'privacy-policy', title:'Privacy-policy',component: PrivacyPolicyComponent},
   {path: 'about-us', title:'About us',component: AboutUsComponent},
-  {path: 'detail-line/:uuid', title:'detail-line',component: DetailLineComponent},
+  {path: ':line/:uuid', title:'detail-line',component: DetailLineComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: HomeComponent},
 ];

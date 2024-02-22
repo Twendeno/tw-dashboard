@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class LocalStorageService {
 
   private readonly prefix = 'app_';
+  private storageLocal: Storage = localStorage;
   setWithExpiration(key: string, value: any, ttlInDays: number): void {
     const now = new Date();
     const expirationDate = new Date(now.getTime() + ttlInDays * 24 * 60 * 60 * 1000);
@@ -15,11 +16,11 @@ export class LocalStorageService {
       expirationDate: expirationDate.toISOString()
     };
 
-    localStorage.setItem(this.prefix + key, JSON.stringify(item));
+    this.storageLocal.setItem(this.prefix + key, JSON.stringify(item));
   }
 
   getWithExpiration(key: string): any {
-    const item = localStorage.getItem(this.prefix + key);
+    const item = this.storageLocal.getItem(this.prefix + key);
 
     if (!item) {
       return null;
@@ -36,6 +37,6 @@ export class LocalStorageService {
   }
 
   remove(key: string): void {
-    localStorage.removeItem(this.prefix + key);
+    this.storageLocal.removeItem(this.prefix + key);
   }
 }
