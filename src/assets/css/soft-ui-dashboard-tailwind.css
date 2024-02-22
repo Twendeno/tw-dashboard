@@ -1219,7 +1219,7 @@ h6 {
 }
 
 .h-sidenav {
-  height: calc(100vh - 370px);
+  height: calc(100vh - 300px);
 }
 
 .h-8 {
@@ -2487,7 +2487,7 @@ h6 {
 }
 
 .text-banner-calculate {
-  font-size: calc(1.625rem+4.5vw);
+  font-size: calc(1.625rem + 4.5vw);
 }
 
 .font-normal {

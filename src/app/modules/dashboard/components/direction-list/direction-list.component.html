@@ -53,7 +53,7 @@
               <div class="flex space-x-1.5 items-center justify-center">
                 <a (click)="onShowDialog(directionItem)" class="cursor-pointer text-xs font-semibold leading-tight text-slate-400"> <i class="pi pi-file-edit"></i> </a>
                 <a (click)="onConfirmDelete(directionItem.uuid)" class=" cursor-pointer text-xs font-semibold leading-tight text-slate-400"> <i class="pi pi-trash"></i> </a>
-                <a [routerLink]="['/dashboard','detail-line',directionItem.uuid]" class="cursor-pointer text-xs font-semibold leading-tight text-slate-400">
+                <a [routerLink]="['/dashboard',directionItem.geometry.name.replace(' ','-'),directionItem.uuid]" class="cursor-pointer text-xs font-semibold leading-tight text-slate-400">
                   <i class="pi pi-eye"></i>
                 </a>
               </div>

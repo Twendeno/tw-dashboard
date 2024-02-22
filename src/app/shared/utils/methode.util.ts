@@ -1,6 +1,5 @@
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {MessageService} from "primeng/api";
-import {DialogResponse} from "@app/models/dialog-response";
 
 export class MethodeUtil{
 
@@ -27,13 +26,14 @@ export class MethodeUtil{
   ) {
     ref=dialogService.open(component, {
       header: `${formName}`,
-      width: '70%',
-      contentStyle: {"max-height": "500px", "overflow": "auto"},
+      width: '50%',
+      contentStyle: {"max-height": "100%", "overflow": "auto"},
       baseZIndex: 11000,
       maximizable: true,
       closable: true,
       draggable: true,
       resizable: true,
+      transitionOptions: '600ms cubic-bezier(0.25, 0.8, 0.25, 1)',
       data: {
         dynamicData,
         isEdit: !!dynamicData.uuid,

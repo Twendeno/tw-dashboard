@@ -1,10 +1,114 @@
 <main class="w-full h-full flex flex-col space-y-2">
   <div class="flex justify-between items-center">
-    <input type="file" (change)="onFileSelected($event)" accept=".json" />
-    <button (click)="downloadJsonFile(editor.get(),'geojson')" class="inline-block  px-6 py-3 mt-6 mb-0 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer shadow-soft-md bg-x-25 bg-150 leading-pro text-xs ease-soft-in tracking-tight-soft bg-gradient-to-tl from-blue-600 to-cyan-400 hover:scale-102 hover:shadow-soft-xs active:opacity-85">
+
+    <div>
+      <label class="mb-2 ml-1 font-bold text-xs text-slate-700">File name</label>
+      <div class="mb-4">
+        <input  type="text" [(ngModel)]="fileName"
+                class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow"
+                placeholder="ex: geojson-pointe-noire" aria-label="file name" aria-describedby="file name"/>
+      </div>
+    </div>
+
+    <input class="text-center" type="file" (change)="onFileSelected($event)" accept=".json" />
+
+    <button (click)="downloadJsonFile(editor.get())" class="inline-block  px-6 py-3 mt-6 mb-0 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer shadow-soft-md bg-x-25 bg-150 leading-pro text-xs ease-soft-in tracking-tight-soft bg-gradient-to-tl from-blue-600 to-cyan-400 hover:scale-102 hover:shadow-soft-xs active:opacity-85">
       <span><i class="pi pi-download text-white"></i> Download</span>
     </button>
+
   </div>
+
+  <div class="flex items-center space-x-2">
+
+    <div>
+      <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Object type</label>
+      <div class="mb-4">
+        <select [(ngModel)]="selectedObjectType" (change)="onObjectTypeSelected($event)"
+          class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
+          <option> Select object type </option>
+          @for (objectTypeItem of typeOfObjects;track objectTypeItem) {
+            <option value="{{ objectTypeItem }}">{{ objectTypeItem }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <ng-container>
+      <div>
+        @if (selectedObjectType !='Select object type'){
+          <label class="mb-2 ml-1 font-bold text-xs text-slate-700">{{selectedObjectType}}</label>
+        }
+        @switch (selectedObjectType){
+
+          @case ('Department'){
+            <div class="mb-4">
+              <select [(ngModel)]="dataObjectTypeSelected"
+                      class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
+                <option> Select department </option>
+                @for (departmentItem of (departments$|async)?.data;track departmentItem) {
+                  <option value="{{ departmentItem.geodata }}">{{ departmentItem.name }}</option>
+                }@empty {
+                  <option value="">Create new department</option>
+                }
+              </select>
+            </div>
+          }
+
+          @case ('Town'){
+            <div class="mb-4">
+              <select [(ngModel)]="dataObjectTypeSelected"
+                      class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
+                <option> Select town </option>
+                @for (townItem of (towns$|async)?.data;track townItem) {
+                  <option value="{{ townItem.geodata }}">{{ townItem.name }}</option>
+                }@empty {
+                  <option value="">Create new town</option>
+                }
+              </select>
+            </div>
+          }
+
+          @case ('District'){
+            <div class="mb-4">
+              <select [(ngModel)]="dataObjectTypeSelected"
+                      class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
+                <option> Select district </option>
+                @for (districtItem of (districts$|async)?.data;track districtItem) {
+                  <option value="{{ districtItem.geodata }}">{{ districtItem.name }}</option>
+                }@empty {
+                  <option value="">Create new district</option>
+                }
+              </select>
+            </div>
+          }
+
+          @case ('Line'){
+            <div class="mb-4">
+              <select [(ngModel)]="dataObjectTypeSelected"
+                      class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
+                <option> Select line </option>
+                @for (lineItem of (lines$|async)?.data;track lineItem) {
+                  <option value="{{ lineItem.geodata }}">{{ lineItem.name }}</option>
+                }@empty {
+                  <option value="">Create new line</option>
+                }
+              </select>
+            </div>
+          }
+        }
+      </div>
+
+      @if (selectedObjectType !='Select object type'){
+        <button (click)="onSubmitGeodataOnline()" class="inline-block  px-6 py-3 mt-6 mb-0 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer shadow-soft-md bg-x-25 bg-150 leading-pro text-xs ease-soft-in tracking-tight-soft bg-gradient-to-tl from-blue-600 to-cyan-400 hover:scale-102 hover:shadow-soft-xs active:opacity-85">
+          <span><i class="pi pi-upload text-white"></i> Update {{selectedObjectType}}</span>
+        </button>
+      }
+    </ng-container>
+
+
+  </div>
+
+
   <div class="w-full flex space-x-2 mx-auto">
     <json-editor [options]="editorOptionsLeft" [data]="data" class="w-full" />
   </div>
